@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { getProductos, deleteProducto } from '../services/api.js';
-import ProductForm from '../components/ProductForm.jsx'; // Importamos el formulario
-import { useNavigate } from 'react-router-dom'; // Para la navegación programática
+import ProductForm from '../components/ProductForm.jsx';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; 
 
 function AdminPanel() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-  const [editingProductId, setEditingProductId] = useState(null); // Estado para saber qué producto estamos editando
-  const navigate = useNavigate(); // Hook para navegar programáticamente
+  const [editingProductId, setEditingProductId] = useState(null);
+  const navigate = useNavigate();
 
-  // Función para cargar los productos. Se llamará al montar y después de cada operación CRUD.
   const fetchProductos = async () => {
     setCargando(true);
     setError(null);
@@ -20,46 +20,41 @@ function AdminPanel() {
     } catch (err) {
       console.error("Error al cargar productos en AdminPanel:", err);
       setError('Error al cargar productos.');
+      toast.error('Error al cargar productos del panel de administración.'); 
     } finally {
       setCargando(false);
     }
   };
 
-  // Carga los productos al montar el componente.
   useEffect(() => {
     fetchProductos();
   }, []);
 
-  // Manejador para el botón de eliminar producto
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de que quieres eliminar este producto?')) {
       try {
         await deleteProducto(id);
-        alert('Producto eliminado con éxito!'); 
-        fetchProductos(); // Recarga la lista de productos
+        toast.success('Producto eliminado con éxito!'); 
+        fetchProductos();
       } catch (err) {
         console.error("Error al eliminar producto:", err);
-        alert('Error al eliminar producto.'); 
+        toast.error('Error al eliminar producto.'); 
       }
     }
   };
 
-  // Manejador para el botón de editar producto
   const handleEdit = (id) => {
-    setEditingProductId(id); // Establece el ID del producto que se va a editar
+    setEditingProductId(id);
   };
 
-  // Manejador para cuando el formulario de producto se guarda con éxito
   const handleFormSuccess = () => {
-    setEditingProductId(null); // Sale del modo edición
-    fetchProductos(); // Recarga la lista de productos
+    setEditingProductId(null);
+    fetchProductos();
   };
 
-  // Manejador para el botón "Agregar Nuevo Producto"
   const handleAddProduct = () => {
-    setEditingProductId(null); // Asegura que no estemos en modo edición
+    setEditingProductId(null);
   };
-
 
   if (cargando) return <p className="text-center py-5">Cargando panel de administración...</p>;
   if (error) return <p className="text-danger text-center py-5">Error: {error}</p>;
@@ -80,7 +75,7 @@ function AdminPanel() {
         </div>
       )}
       
-      {editingProductId === null && productos.length > 0 && ( // Solo muestra la tabla si no estamos editando
+      {editingProductId === null && productos.length > 0 && (
         <div className="table-responsive">
           <table className="table table-striped table-hover">
             <thead>

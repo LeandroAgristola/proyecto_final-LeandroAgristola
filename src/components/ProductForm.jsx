@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getProductoById, postProducto, putProducto } from '../services/api.js';
+import { toast } from 'react-toastify'; 
 
-// Componente de formulario para agregar o editar productos.
-// Recibe 'productoId' si estamos en modo edición, y 'onSuccess' para manejar el éxito de la operación.
 function ProductForm({ productoId, onSuccess }) {
-  // Estado para los datos del formulario. Inicializa con un objeto vacío o con los datos del producto si es edición.
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -13,44 +11,37 @@ function ProductForm({ productoId, onSuccess }) {
     categoria: ''
   });
 
-  // Estado para manejar los errores de validación del formulario.
   const [errors, setErrors] = useState({});
-  // Estado para controlar si el formulario está en proceso de envío.
   const [submitting, setSubmitting] = useState(false);
-  // Estado para mostrar mensajes de carga o éxito.
-  const [message, setMessage] = useState('');
 
-  // useEffect para cargar los datos del producto si se proporciona un productoId (modo edición).
+
   useEffect(() => {
     if (productoId) {
-      setMessage('Cargando datos del producto...');
+      toast.info('Cargando datos del producto para edición...'); 
       getProductoById(productoId)
         .then(res => {
-          setFormData(res.data); // Llena el formulario con los datos del producto existente.
-          setMessage('');
+          setFormData(res.data);
+          toast.success('Datos del producto cargados.'); 
         })
         .catch(err => {
           console.error("Error al cargar producto para edición:", err);
-          setMessage('Error al cargar datos del producto para edición.');
+          toast.error('Error al cargar datos del producto para edición.'); 
         });
     }
-  }, [productoId]); // Se ejecuta cuando productoId cambia.
+  }, [productoId]);
 
-  // Manejador de cambios para los inputs del formulario.
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    // Limpia el error para el campo actual si el usuario empieza a escribir.
     setErrors(prev => ({
       ...prev,
       [name]: undefined
     }));
   };
 
-  // Función de validación del formulario.
   const validateForm = () => {
     const newErrors = {};
     if (!formData.nombre.trim()) {
@@ -69,31 +60,27 @@ function ProductForm({ productoId, onSuccess }) {
       newErrors.categoria = 'La categoría es obligatoria.';
     }
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Retorna true si no hay errores.
+    return Object.keys(newErrors).length === 0;
   };
 
-  // Manejador del envío del formulario.
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Previene el comportamiento por defecto del formulario (recargar la página).
+    e.preventDefault();
 
     if (!validateForm()) {
-      setMessage('Por favor, corrige los errores del formulario.');
+      toast.error('Por favor, corrige los errores del formulario.'); 
       return;
     }
 
-    setSubmitting(true); // Indica que el formulario se está enviando.
-    setMessage('Guardando producto...');
+    setSubmitting(true);
+    toast.info('Guardando producto...');
 
     try {
       if (productoId) {
-        // Si hay productoId, estamos editando.
         await putProducto(productoId, formData);
-        setMessage('Producto actualizado con éxito!');
+        toast.success('Producto actualizado con éxito!'); 
       } else {
-        // Si no hay productoId, estamos creando uno nuevo.
         await postProducto(formData);
-        setMessage('Producto agregado con éxito!');
-        // Limpia el formulario después de agregar un nuevo producto.
+        toast.success('Producto agregado con éxito!');
         setFormData({
           nombre: '',
           descripcion: '',
@@ -103,13 +90,13 @@ function ProductForm({ productoId, onSuccess }) {
         });
       }
       if (onSuccess) {
-        onSuccess(); // Llama a la función onSuccess si se proporciona.
+        onSuccess();
       }
     } catch (error) {
       console.error("Error al guardar el producto:", error);
-      setMessage(`Error: ${error.response?.data?.message || 'No se pudo guardar el producto.'}`);
+      toast.error(`Error: ${error.response?.data?.message || 'No se pudo guardar el producto.'}`);
     } finally {
-      setSubmitting(false); // Finaliza el estado de envío.
+      setSubmitting(false);
     }
   };
 
@@ -117,7 +104,6 @@ function ProductForm({ productoId, onSuccess }) {
     <div className="container py-5" style={{ maxWidth: '600px' }}>
       <h2 className="text-center mb-4">{productoId ? 'Editar Producto' : 'Agregar Nuevo Producto'}</h2>
       <form onSubmit={handleSubmit}>
-        {/* Campo Nombre */}
         <div className="mb-3">
           <label htmlFor="nombre" className="form-label">Nombre del Producto</label>
           <input
@@ -132,7 +118,6 @@ function ProductForm({ productoId, onSuccess }) {
           {errors.nombre && <div className="invalid-feedback">{errors.nombre}</div>}
         </div>
 
-        {/* Campo Descripción */}
         <div className="mb-3">
           <label htmlFor="descripcion" className="form-label">Descripción</label>
           <textarea
@@ -147,7 +132,6 @@ function ProductForm({ productoId, onSuccess }) {
           {errors.descripcion && <div className="invalid-feedback">{errors.descripcion}</div>}
         </div>
 
-        {/* Campo Precio */}
         <div className="mb-3">
           <label htmlFor="precio" className="form-label">Precio</label>
           <input
@@ -157,17 +141,16 @@ function ProductForm({ productoId, onSuccess }) {
             name="precio"
             value={formData.precio}
             onChange={handleChange}
-            step="0.01" // Permite decimales
+            step="0.01"
             disabled={submitting}
           />
           {errors.precio && <div className="invalid-feedback">{errors.precio}</div>}
         </div>
 
-        {/* Campo URL de Imagen (Cloudinary) */}
         <div className="mb-3">
           <label htmlFor="imagen" className="form-label">URL de la Imagen (Cloudinary)</label>
           <input
-            type="url" // Tipo url para validación básica de formato
+            type="url"
             className={`form-control ${errors.imagen ? 'is-invalid' : ''}`}
             id="imagen"
             name="imagen"
@@ -178,7 +161,6 @@ function ProductForm({ productoId, onSuccess }) {
           {errors.imagen && <div className="invalid-feedback">{errors.imagen}</div>}
         </div>
 
-        {/* Campo Categoría */}
         <div className="mb-3">
           <label htmlFor="categoria" className="form-label">Categoría</label>
           <input
@@ -193,17 +175,10 @@ function ProductForm({ productoId, onSuccess }) {
           {errors.categoria && <div className="invalid-feedback">{errors.categoria}</div>}
         </div>
 
-        {/* Botón de envío del formulario */}
         <button type="submit" className="btn btn-primary w-100" disabled={submitting}>
           {submitting ? 'Guardando...' : (productoId ? 'Actualizar Producto' : 'Agregar Producto')}
         </button>
-
-        {/* Mensajes de estado */}
-        {message && (
-          <div className={`mt-3 alert ${message.includes('Error') ? 'alert-danger' : 'alert-success'}`}>
-            {message}
-          </div>
-        )}
+        {}
       </form>
     </div>
   );
