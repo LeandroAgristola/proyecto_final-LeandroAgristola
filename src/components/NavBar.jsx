@@ -126,7 +126,7 @@ function NavBar() {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {categoria.nombre} <FaAngleDown className="ms-1" />
+                    {categoria.nombre} 
                   </Link>
                   <ul className="dropdown-menu" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
                     {/* Genera subcategorías con Link y parámetros de URL */}
