@@ -1,16 +1,16 @@
-import React from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams
+import React from 'react'; 
+import { useLocation } from 'react-router-dom';
 import ItemListContainer from '../components/ItemListContainer';
-import CategoryBanner from '../components/CategoryBanner.jsx'; // Import the new component
+import CategoryBanner from '../components/CategoryBanner.jsx';
 
 function Productos() {
-  const { categoria } = useParams(); // Get category from URL params, if any
+  const location = useLocation(); 
+  const queryParams = new URLSearchParams(location.search); 
+  const category = queryParams.get('categoria'); 
 
   return (
     <div className="container py-5">
-      <h2 className="text-center my-4">Nuestros productos</h2>
-      {/* Render CategoryBanner if a category is present in the URL */}
-      {categoria && <CategoryBanner category={categoria} />}
+      {category && <CategoryBanner category={category} />}
       <ItemListContainer />
     </div>
   );

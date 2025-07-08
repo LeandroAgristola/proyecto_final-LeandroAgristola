@@ -1,13 +1,13 @@
-// src/pages/MasVendidosPage.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; // Asegúrate de importar useState
 import { getProductos } from '../services/api.js';
 import ItemListContainer from '../components/ItemListContainer.jsx';
 import { toast } from 'react-toastify';
+import CategoryBanner from '../components/CategoryBanner.jsx';
 
 function MasVendidosPage() {
   const [masVendidos, setMasVendidos] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // Línea corregida aquí
 
   useEffect(() => {
     const fetchMasVendidos = async () => {
@@ -58,7 +58,7 @@ function MasVendidosPage() {
 
   return (
     <div className="container py-5">
-      <h2 className="text-center mb-4">🏆 Nuestros Productos Más Vendidos 🏆</h2>
+      <CategoryBanner category="vendidos" />
       <ItemListContainer productos={masVendidos} />
     </div>
   );

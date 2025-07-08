@@ -1,8 +1,8 @@
-// src/pages/OfertasPage.jsx
 import React, { useEffect, useState } from 'react';
 import { getProductos } from '../services/api.js';
 import ItemListContainer from '../components/ItemListContainer.jsx';
 import { toast } from 'react-toastify';
+import CategoryBanner from '../components/CategoryBanner.jsx'; // NEW: Import CategoryBanner
 
 function OfertasPage() {
   const [ofertas, setOfertas] = useState([]);
@@ -58,7 +58,8 @@ function OfertasPage() {
 
   return (
     <div className="container py-5">
-      <h2 className="text-center mb-4">🔥 Todas Nuestras Ofertas 🔥</h2>
+      {/* NEW: Render CategoryBanner instead of h2 title */}
+      <CategoryBanner category="ofertas" />
       <ItemListContainer productos={ofertas} />
     </div>
   );
