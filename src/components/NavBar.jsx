@@ -9,8 +9,8 @@ import styled from 'styled-components';
 // Componentes estilizados existentes (sin cambios aquí)
 const StyledSearchInput = styled.input`
   &:focus {
-    border-color: #555;
-    box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25);
+    border-color: #ffff;
+    box-shadow: 0 0 0 0.1em #ffff;
   }
 `;
 
@@ -25,8 +25,8 @@ const StyledSearchButton = styled.button`
   width: 60px;
   flex-shrink: 0;
   &:hover {
-    background-color: #343a40;
-    border-color: #343a40;
+    background-color: #555;
+    border-color: #555;
   }
 `;
 
@@ -120,7 +120,7 @@ function NavBar() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <StyledSearchButton type="submit">
+            <StyledSearchButton className='btn btn-dark' type="submit">
               <FaSearch />
             </StyledSearchButton>
           </form>
