@@ -116,12 +116,20 @@ const StyledMobileCollapse = styled.div`
       width: 100%;
       text-align: center;
       margin-bottom: 10px;
+      display: flex; /* Make nav-item a flex container to center its contents */
+      justify-content: center; /* Center contents horizontally */
+    }
+
+    .nav-item.dropdown { /* Specific rule for dropdown nav items */
+      flex-direction: column; /* Ensure button and dropdown stack vertically */
+      align-items: center; /* Center them horizontally */
     }
 
     .nav-link {
       padding: 15px 0 !important;
       color: white !important;
       font-size: 1.2rem;
+      width: 100%; /* Make nav-link take full width for hover effect */
       &:hover {
         background-color: #555 !important;
       }
@@ -148,6 +156,9 @@ const StyledMobileCollapse = styled.div`
       .dropdown-item {
         color: white !important;
         padding: 10px 0;
+        display: block; /* Ensure it's a block to take width */
+        width: 100%; /* Make dropdown-item take full width for hover effect */
+        text-align: center; /* Center text inside the block */
         &:hover {
           background-color: #6c757d !important;
         }
@@ -278,10 +289,10 @@ function NavBar() {
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.height = '100vh';
+      document.body.style.height = '100vh'; // Crucial for full scroll blocking on mobile
     } else {
       document.body.style.overflow = '';
-      document.body.style.height = '';
+      document.body.style.height = ''; // Reset height
     }
     return () => {
       document.body.style.overflow = '';
@@ -349,45 +360,16 @@ function NavBar() {
             </StyledSearchButton>
           </form>
 
-          <div className="d-flex align-items-center">
-            {usuario ? (
-              <div className="dropdown me-3 mt-2">
-                <Link
-                  className="nav-link text-dark d-flex flex-column align-items-center"
-                  to="#"
-                  id="userDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown" // Desktop user dropdown still uses data-bs-toggle
-                  aria-expanded="false"
-                >
-                  <FaUserCircle size={24} />
-                  <small>Hola, {usuario.nombre}</small>
-                </Link>
-                <StyledUserDropdownMenu className="dropdown-menu" aria-labelledby="userDropdown">
-                  <li><Link className="dropdown-item" to="/mis-compras">Mis Compras</Link></li>
-                  <li><Link className="dropdown-item" to="/datos-personales">Datos Personales</Link></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
-                </StyledUserDropdownMenu>
-              </div>
-            ) : (
-              <Link className="nav-link text-dark me-3 d-flex flex-column align-items-center mt-2" to="/login">
-                <FaUserCircle size={24} />
-                <small>Mi Cuenta</small>
-              </Link>
+          <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative mt-2" to="/cart">
+            <FaShoppingCart size={24} />
+            {totalItemsCarrito > 0 && (
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {totalItemsCarrito}
+                <span className="visually-hidden">productos en el carrito</span>
+              </span>
             )}
-
-            <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative mt-2" to="/cart">
-              <FaShoppingCart size={24} />
-              {totalItemsCarrito > 0 && (
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {totalItemsCarrito}
-                  <span className="visually-hidden">productos en el carrito</span>
-                </span>
-              )}
-              <small>Carrito</small>
-            </Link>
-          </div>
+            <small>Carrito</small>
+          </Link>
         </div>
       </div>
 
@@ -402,62 +384,23 @@ function NavBar() {
             </Link>
           </div>
 
-          {/* Row 2: User/Cart (centered horizontally) - Modified */}
-          <div className="d-flex justify-content-center align-items-center py-2 mb-2">
-            {usuario ? (
-              <div className="dropdown me-3">
-                <button // Changed to button for mobile user dropdown toggle, no data-bs-toggle
-                  className="nav-link text-dark d-flex align-items-center"
-                  id="userDropdownMobile"
-                  type="button"
-                  aria-expanded={isUserDropdownOpen}
-                  onClick={handleUserDropdownToggle}
-                >
-                  <FaUserCircle size={24} className="me-1" />
-                  <small>Hola, {usuario.nombre}</small>
-                </button>
-                {/* Conditionally render based on React state */}
-                {isUserDropdownOpen && (
-                  <StyledUserDropdownMenu className="dropdown-menu open" aria-labelledby="userDropdownMobile">
-                    <li><Link className="dropdown-item" to="/mis-compras" onClick={handleLinkClick}>Mis Compras</Link></li>
-                    <li><Link className="dropdown-item" to="/datos-personales" onClick={handleLinkClick}>Datos Personales</Link></li>
-                    <li><hr className="dropdown-divider" /></li>
-                    <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
-                  </StyledUserDropdownMenu>
-                )}
-              </div>
-            ) : (
-              <Link className="nav-link text-dark me-3 d-flex align-items-center" to="/login" onClick={handleLinkClick}>
-                <FaUserCircle size={24} className="me-1" />
-                <small>Mi Cuenta</small>
-              </Link>
-            )}
-
-            <Link className="nav-link text-dark d-flex align-items-center position-relative" to="/cart" onClick={handleLinkClick}>
-              <FaShoppingCart size={24} />
-              {totalItemsCarrito > 0 && (
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {totalItemsCarrito}
-                  <span className="visually-hidden">productos en el carrito</span>
-                </span>
-              )}
-            </Link>
-          </div>
-
-          {/* Row 3: Hamburger/Search (centered horizontally) */}
-          <div className="d-flex justify-content-center align-items-center py-2">
+          {/* New Row 2: Hamburger | Search | Cart (centered group) */}
+          <div className="d-flex justify-content-around align-items-center py-2"> {/* justify-content-around for spacing */}
+            {/* Hamburger Button */}
             <button
               className="navbar-toggler"
               type="button"
               data-bs-target="#navbarNav"
               aria-controls="navbarNav"
               aria-expanded={isMenuOpen}
-              onClick={handleToggle} // Only onClick, no data-bs-toggle
+              onClick={handleToggle} // Only onClick, no data-bs-toggle here
               style={{ border: 'none', backgroundColor: 'transparent' }}
             >
               {isMenuOpen ? <FaTimes size={24} color="#343a40" /> : <FaBars size={24} color="#343a40" />}
             </button>
-            <form className="input-group w-75 ms-3" onSubmit={handleSearch}>
+
+            {/* Search Form */}
+            <form className="input-group w-75 mx-3" onSubmit={handleSearch}> {/* w-75 to limit width, mx-3 for spacing */}
               <StyledSearchInput
                 type="text"
                 className="form-control"
@@ -470,6 +413,17 @@ function NavBar() {
                 <FaSearch />
               </StyledSearchButton>
             </form>
+
+            {/* Cart Icon (Moved back to header) */}
+            <Link className="nav-link text-dark d-flex align-items-center position-relative" to="/cart" onClick={handleLinkClick}>
+              <FaShoppingCart size={24} />
+              {totalItemsCarrito > 0 && (
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {totalItemsCarrito}
+                  <span className="visually-hidden">productos en el carrito</span>
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </div>
@@ -479,6 +433,7 @@ function NavBar() {
         <div className="container">
           <StyledMobileCollapse className="collapse navbar-collapse" id="navbarNav" ref={navbarCollapseRef}>
             <ul className="navbar-nav w-100 justify-content-between">
+              {/* User Menu Nav Item (Desktop & Mobile) */}
               <li className="nav-item">
                 <Link className="nav-link py-3 px-4" to="/ofertas" onClick={handleLinkClick}>
                   <FaFire className="me-2" />
@@ -494,7 +449,7 @@ function NavBar() {
 
               {categorias.map((categoria, index) => (
                 <li className="nav-item dropdown" key={index}>
-                  <button // Changed from Link to button for category dropdown toggles, no data-bs-toggle
+                  <button // Changed to button for category dropdown toggles, no data-bs-toggle
                     className="nav-link dropdown-toggle py-3 px-4"
                     id={`navbarDropdown${categoria.nombre}`}
                     type="button"
@@ -517,6 +472,31 @@ function NavBar() {
                   )}
                 </li>
               ))}
+              <li className="nav-item dropdown" key="user-menu">
+                  {usuario ? (
+                      <button // Button to toggle user dropdown, no data-bs-toggle
+                          className="nav-link dropdown-toggle py-3 px-4"
+                          id="userDropdownNavLink"
+                          type="button"
+                          aria-expanded={isUserDropdownOpen}
+                          onClick={handleUserDropdownToggle}
+                      >
+                          <FaUserCircle className="me-2" />Hola, {usuario.nombre}
+                      </button>
+                  ) : (
+                      <Link className="nav-link py-3 px-4" to="/login" onClick={handleLinkClick}>
+                          <FaUserCircle className="me-2" />Mi Cuenta
+                      </Link>
+                  )}
+                  {isUserDropdownOpen && ( // Conditionally render
+                      <StyledUserDropdownMenu className="dropdown-menu open" aria-labelledby="userDropdownNavLink">
+                          <li><Link className="dropdown-item" to="/mis-compras" onClick={handleLinkClick}>Mis Compras</Link></li>
+                          <li><Link className="dropdown-item" to="/datos-personales" onClick={handleLinkClick}>Datos Personales</Link></li>
+                          <li><hr className="dropdown-divider" /></li>
+                          <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
+                      </StyledUserDropdownMenu>
+                  )}
+              </li>
             </ul>
           </StyledMobileCollapse>
         </div>

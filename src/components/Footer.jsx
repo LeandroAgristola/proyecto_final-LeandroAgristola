@@ -1,26 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
 // Importa tus logos de medios de pago
 import LogoMaster from '../assets/pagos/LogoMaster.png';
 import LogoMP from '../assets/pagos/LogoMP.png';
 import LogoVisa from '../assets/pagos/LogoVisa.png';
-import LogoAmericanExpress from '../assets/pagos/LogoAmerican.png'; 
+import LogoAmericanExpress from '../assets/pagos/LogoAmerican.png';
 
 // Importa los iconos de redes sociales de React Icons
-import { 
-  FaFacebook, 
-  FaTwitter, 
-  FaYoutube, 
-  FaInstagram, 
-  FaLinkedin, 
+import {
+  FaFacebook,
+  FaTwitter,
+  FaYoutube,
+  FaInstagram,
+  FaLinkedin,
   FaTiktok,
-  FaPhone,     
-  FaWhatsapp,  
+  FaPhone,
+  FaWhatsapp,
   FaEnvelope,
-  FaMapMarkerAlt  
+  FaMapMarkerAlt
 } from 'react-icons/fa';
-import logoColchones from '../assets/LogoColchones.png'; // Importa logo para el footer
+// import logoColchones from '../assets/LogoColchones.png'; // No se usa directamente aquí, el logo del footer es texto
 
 function Footer() {
   return (
@@ -42,16 +42,16 @@ function Footer() {
             <h5 className="text-white mb-3">Contacto</h5>
             <ul className="list-unstyled">
               <li>
-                <FaPhone className="me-2" /> 
-                Teléfono: +54 11 1234-5678 
+                <FaPhone className="me-2" />
+                Teléfono: +54 11 1234-5678
               </li>
               <li>
                 <FaWhatsapp className="me-2" />
-                WhatsApp: +54 911 8765-4321 
+                WhatsApp: +54 911 8765-4321
               </li>
               <li>
-                <FaEnvelope className="me-2" /> 
-                Email: info@colchonera.com 
+                <FaEnvelope className="me-2" />
+                Email: info@colchonera.com
               </li>
               <li>
                 <FaMapMarkerAlt className="me-2" />
@@ -94,7 +94,7 @@ function Footer() {
                 <img src={LogoVisa} alt="Visa" style={{ height: '30px' }} className="me-2" />
                 <img src={LogoMaster} alt="Mastercard" style={{ height: '30px' }} className="me-2" />
                 <img src={LogoMP} alt="Mercado Pago" style={{ height: '30px' }} />
-                <img src={LogoAmericanExpress} alt="American Express" style={{ height: '30px' }} className="me-2" /> 
+                <img src={LogoAmericanExpress} alt="American Express" style={{ height: '30px' }} className="me-2" />
               </div>
             </div>
           </div>
@@ -104,6 +104,13 @@ function Footer() {
           <small>&copy; {new Date().getFullYear()} Colchonera React - Todos los derechos reservados</small>
         </div>
       </div>
+      {/* Boton de whatsapp */}
+      <a href="https://api.whatsapp.com/send?phone=+5491187654321" // Hardcoded for example, use config if available
+        className="whatsapp-float"
+        target="_blank"
+        aria-label="Chatea con nosotros por WhatsApp">
+        <FaWhatsapp />
+      </a>
     </footer>
   );
 }

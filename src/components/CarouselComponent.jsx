@@ -1,33 +1,51 @@
-import React from 'react';
-import { Carousel } from 'react-bootstrap'; 
-import bannerCuotas from '../assets/carousel/bannerCuotas.png'; 
-import bannerPagos from '../assets/carousel/bannerPagos.png';   
-import bannerPromos from '../assets/carousel/bannerPromos.png'; 
+import React, { useState, useEffect } from 'react';
+import { Carousel } from 'react-bootstrap';
+import bannerCuotas from '../assets/carousel/bannerCuotas.png';
+import bannerPagos from '../assets/carousel/bannerPagos.png';
+import bannerPromos from '../assets/carousel/bannerPromos.png';
+// Import mobile images
+import bannerCuotasMovil from '../assets/carousel/bannerCuotasMovil.png';
+import bannerPagosMovil from '../assets/carousel/bannerPagosMovil.png';
+import bannerPromosMovil from '../assets/carousel/bannerPromosMovil.png';
 
 function CarouselComponent() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Assuming 768px for common mobile breakpoint
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getBannerSrc = (desktopSrc, mobileSrc) => {
+    return isMobile ? mobileSrc : desktopSrc;
+  };
+
   return (
-    <Carousel fade controls={false} indicators={false}> {/* `fade` para un efecto de transición suave, `controls` y `indicators` ocultos para un diseño más limpio */}
-      <Carousel.Item interval={5000}> {/* `interval` en milisegundos para la duración de cada slide */}
+    // Set fade to false for sliding animation
+    <Carousel fade={false} controls={false} indicators={false} id="carousel"> {/* Added id="carousel" for footer link */}
+      <Carousel.Item interval={4000}>
         <img
           className="d-block w-100"
-          src={bannerCuotas}
+          src={getBannerSrc(bannerCuotas, bannerCuotasMovil)} // Conditional image source
           alt="Banner Cuotas"
-          style={{ maxHeight: '600px', objectFit: 'cover' }} 
+          style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
-        {}
       </Carousel.Item>
-      <Carousel.Item interval={5000}>
+      <Carousel.Item interval={4000}>
         <img
           className="d-block w-100"
-          src={bannerPagos}
+          src={getBannerSrc(bannerPagos, bannerPagosMovil)} // Conditional image source
           alt="Banner Medios de Pago"
           style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
       </Carousel.Item>
-      <Carousel.Item interval={5000}>
+      <Carousel.Item interval={4000}>
         <img
           className="d-block w-100"
-          src={bannerPromos}
+          src={getBannerSrc(bannerPromos, bannerPromosMovil)} // Conditional image source
           alt="Banner Promociones"
           style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
