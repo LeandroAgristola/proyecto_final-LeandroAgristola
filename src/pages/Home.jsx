@@ -25,12 +25,6 @@ function Home() {
           />
         </Link>
       </div>
-
-      {/* Aquí podrías poner ItemListContainer si quieres mostrar productos destacados en la Home,
-          o quitarlo si la Home se centra solo en las secciones de categorías y banners.
-          Por ahora, lo mantengo comentado para que decidas: */}
-      {/* <h2 className="text-center my-4">Nuestros Productos Destacados</h2>
-      <ItemListContainer /> */}
     </div>
   );
 }
