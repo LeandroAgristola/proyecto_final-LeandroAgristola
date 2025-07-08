@@ -1,24 +1,25 @@
+import React from 'react'; // Importo React ya que es necesario para JSX
 import { useCart } from '../context/CartContext.jsx';
-import styled from 'styled-components'; // Importo styled para aplicar estilos personalizados a los botones
-import QuantityControls from './common/QuantityControls.jsx'; // Asegúrate de que esta importación sea correcta si lo moviste
+import { useAuth } from '../context/AuthContext.jsx'; // Importo useAuth
+import { useNavigate, useLocation } from 'react-router-dom'; // Importo useNavigate y useLocation
+import styled from 'styled-components'; 
+import QuantityControls from './common/QuantityControls.jsx';
 
 
 const StyledAddToCartButton = styled.button`
-  /* Propiedades de tamaño y alineación para que coincida con QuantityControls */
-  height: 34px; /* Ajustado para que su altura sea similar a la de QuantityControls */
+  height: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.375rem 1rem; /* Padding para que el texto se vea bien */
-  font-size: 1rem; /* Tamaño de fuente estándar */
-  line-height: 1.5; /* Altura de línea para centrar el texto verticalmente */
+  padding: 0.375rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
 
-  /* Colores y bordes que ya hemos definido para los botones principales (gris oscuro) */
   background-color: #343a40;
   border-color: #343a40;
   color: white;
-  border-radius: 0.25rem; /* Bordes redondeados estándar */
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Transición suave para hover */
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
   &:hover {
     background-color: #555;
@@ -29,6 +30,11 @@ const StyledAddToCartButton = styled.button`
 
 function ItemDetail({ producto }) {
   const { agregarAlCarrito, disminuirCantidad, carrito } = useCart();
+  const { usuario } = useAuth(); // Obtengo el estado del usuario logueado.
+  const navigate = useNavigate(); // Hook para la navegación.
+  const location = useLocation(); // Hook para obtener la URL actual (para redirigir de vuelta).
+
+
   const cantidadEnCarrito = carrito.find(item => item.id === producto.id)?.cantidad || 0;
 
   const formatPrice = (price) => {
@@ -39,6 +45,18 @@ function ItemDetail({ producto }) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2
     }).format(numericPrice);
+  };
+
+  // NUEVA FUNCIÓN: Manejar el clic en "Agregar al carrito" con verificación de sesión.
+  const handleAddToCart = () => {
+    if (!usuario) { // Si el usuario NO está logueado
+      // Redirijo al usuario a la página de login.
+      // Le paso el 'state' para que, una vez logueado, pueda volver a esta página.
+      navigate('/login', { state: { from: location } });
+    } else {
+      // Si el usuario SÍ está logueado, procedo a agregar el producto al carrito.
+      agregarAlCarrito(producto);
+    }
   };
 
 
@@ -66,7 +84,7 @@ function ItemDetail({ producto }) {
           
           {/* Lógica de renderizado CONDICIONAL para el botón/control de cantidad */}
           {cantidadEnCarrito === 0 ? (
-            <StyledAddToCartButton className="mt-3" onClick={() => agregarAlCarrito(producto)}>
+            <StyledAddToCartButton className="mt-3" onClick={handleAddToCart}> {/* CAMBIO: Ahora llama a la función handleAddToCart */}
               Agregar al carrito
             </StyledAddToCartButton>
           ) : (
@@ -74,7 +92,7 @@ function ItemDetail({ producto }) {
             <div className="d-flex align-items-center mt-3">
               <QuantityControls
                 quantity={cantidadEnCarrito}
-                onIncrement={() => agregarAlCarrito(producto)}
+                onIncrement={() => agregarAlCarrito(producto)} // Estos ya asumen que está logueado para incrementar/disminuir
                 onDecrement={() => disminuirCantidad(producto.id)}
               />
             </div>
