@@ -12,24 +12,24 @@ function CarouselComponent() {
           className="d-block w-100"
           src={bannerCuotas}
           alt="Banner Cuotas"
-          style={{ maxHeight: '500px', objectFit: 'cover' }} 
+          style={{ maxHeight: '600px', objectFit: 'cover' }} 
         />
         {}
       </Carousel.Item>
-      <Carousel.Item interval={3000}>
+      <Carousel.Item interval={5000}>
         <img
           className="d-block w-100"
           src={bannerPagos}
           alt="Banner Medios de Pago"
-          style={{ maxHeight: '500px', objectFit: 'cover' }}
+          style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
       </Carousel.Item>
-      <Carousel.Item interval={3000}>
+      <Carousel.Item interval={5000}>
         <img
           className="d-block w-100"
           src={bannerPromos}
           alt="Banner Promociones"
-          style={{ maxHeight: '500px', objectFit: 'cover' }}
+          style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
       </Carousel.Item>
     </Carousel>

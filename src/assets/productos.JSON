@@ -1,0 +1,506 @@
+[
+  {
+    "nombre": "Colchón 1 Plaza Espuma Telgo Vida (080x190)",
+    "descripcion": "El colchón Telgo Vida está fabricado con una estructura de poliuretano Densidad media, que brinda una comodidad y firmeza inigualable.",
+    "precio": "99999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/01-080x190_rjfjsb.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Colchón 1 Plaza Resorte Telgo Dorado (080x190)",
+    "descripcion": "El colchón Telgo Dorado está fabricado con una estructura de resortes bicónicos bonell con doble marco perimetral, reforzado internamente con una capa de espuma que hace a la superficie de apoyo confortable.",
+    "precio": "129999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/01-080x190_rjfjsb.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Colchón en Caja 1 Plaza Espuma Meyer Dream Compact (080x190)",
+    "descripcion": "El colchón Dream Compact es la combinación perfecta de espumas de soporte y espumas soft que aportan adaptabilidad con una sensación suave y moderna",
+    "precio": "209999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925458/03-080x190_sl5tii.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Colchón 1 Plaza Espuma Meyer Dream (080x190)",
+    "descripcion": "El colchón Meyer Dream está fabricado con una estructura de poliuretano de densidad media, que brinda una comodidad y firmeza inigualable. De gran resistencia, confort y durabilidad.",
+    "precio": "219999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/04-080x190_wym5tf.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Colchón en Caja 1 Plaza Espuma Sealy Chill Cloud (080x190)",
+    "descripcion": "El colchón Cocoon Chill Cloud by Sealy está fabricado con materiales duraderos, para ofrecer una calidad en la que podés confiar.",
+    "precio": "289999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/05-080x190_s0lczo.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Colchón 1 Plaza Resorte Inducol Delta (080x190)",
+    "descripcion": "El colchón Inducol Delta está revestido con la más alta calidad de tela jackard estampada, que permite ampliar su durabilidad y brinda una delicada sensación de suavidad.",
+    "precio": "309999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/05-080x190_s0lczo.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Colchón 1 Plaza y media Espuma Telgo Vida (100x190)",
+    "descripcion": "El colchón Telgo Vida está fabricado con una estructura de poliuretano Densidad media, que brinda una comodidad y firmeza inigualable.",
+    "precio": "119999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/01-080x190_rjfjsb.png",
+    "subcategoria": "1-plaza-y-media"
+  },
+  {
+    "nombre": "Colchón 1 Plaza y media Resorte Telgo Dorado (100x190)",
+    "descripcion": "El colchón Telgo Dorado está fabricado con una estructura de resortes bicónicos bonell con doble marco perimetral, reforzado internamente con una capa de espuma que hace a la superficie de apoyo confortable.",
+    "precio": "149999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/01-080x190_rjfjsb.png",
+    "subcategoria": "1-plaza-y-media"
+  },
+  {
+    "nombre": "Colchón en Caja 1 Plaza y media Espuma Meyer Dream Compact (100x190)",
+    "descripcion": "El colchón Dream Compact es la combinación perfecta de espumas de soporte y espumas soft que aportan adaptabilidad con una sensación suave y moderna",
+    "precio": "229999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925458/03-080x190_sl5tii.png",
+    "subcategoria": "1-plaza-y-media"
+  },
+  {
+    "nombre": "Colchón 1 Plaza y media Espuma Meyer Dream (100x190)",
+    "descripcion": "El colchón Meyer Dream está fabricado con una estructura de poliuretano de densidad media, que brinda una comodidad y firmeza inigualable. De gran resistencia, confort y durabilidad.",
+    "precio": "239999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/04-080x190_wym5tf.png",
+    "subcategoria": "1-plaza-y-media"
+  },
+  {
+    "nombre": "Colchón en Caja 1 Plaza y media Espuma Sealy Chill Cloud (100x190)",
+    "descripcion": "El colchón Cocoon Chill Cloud by Sealy está fabricado con materiales duraderos, para ofrecer una calidad en la que podés confiar.",
+    "precio": "309999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/05-080x190_s0lczo.png",
+    "subcategoria": "1-plaza-y-media"
+  },
+  {
+    "nombre": "Colchón 1 Plaza y media Resorte Inducol Delta (100x190)",
+    "descripcion": "El colchón Inducol Delta está revestido con la más alta calidad de tela jackard estampada, que permite ampliar su durabilidad y brinda una delicada sensación de suavidad.",
+    "precio": "329999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925456/05-080x190_s0lczo.png",
+    "subcategoria": "1-plaza-y-media"
+  },
+  {
+    "nombre": "Colchón 2 Plazas Espuma Telgo Vida (140x190)",
+    "descripcion": "El colchón Telgo Vida está fabricado con una estructura de poliuretano Densidad media, que brinda una comodidad y firmeza inigualable.",
+    "precio": "159999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925493/01-140x190_rznxnu.png",
+    "subcategoria": "2-plazas"
+  },
+  {
+    "nombre": "Colchón 2 Plazas Resorte Telgo Dorado (140x190)",
+    "descripcion": "El colchón Telgo Dorado está fabricado con una estructura de resortes bicónicos bonell con doble marco perimetral, reforzado internamente con una capa de espuma que hace a la superficie de apoyo confortable.",
+    "precio": "199999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925494/02-140x190_qjlm0x.png",
+    "subcategoria": "2-plazas"
+  },
+  {
+    "nombre": "Colchón en Caja 2 Plazas Espuma Meyer Dream Compact (140x190)",
+    "descripcion": "El colchón Dream Compact es la combinación perfecta de espumas de soporte y espumas soft que aportan adaptabilidad con una sensación suave y moderna",
+    "precio": "339999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925495/03-140x190_biu7r0.png",
+    "subcategoria": "2-plazas"
+  },
+  {
+    "nombre": "Colchón 2 Plazas Espuma Meyer Dream (140x190)",
+    "descripcion": "El colchón Meyer Dream está fabricado con una estructura de poliuretano de densidad media, que brinda una comodidad y firmeza inigualable. De gran resistencia, confort y durabilidad.",
+    "precio": "359999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925495/04-140x190_zfvvev.png",
+    "subcategoria": "2-plazas"
+  },
+  {
+    "nombre": "Colchón en Caja 2 Plazas Espuma Sealy Chill Cloud (140x190)",
+    "descripcion": "El colchón Cocoon Chill Cloud by Sealy está fabricado con materiales duraderos, para ofrecer una calidad en la que podés confiar.",
+    "precio": "479999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925496/05-140x190_gjjlmx.png",
+    "subcategoria": "2-plazas"
+  },
+  {
+    "nombre": "Colchón 2 Plazas Resorte Inducol Delta (140x190)",
+    "descripcion": "El colchón Inducol Delta está revestido con la más alta calidad de tela jackard estampada, que permite ampliar su durabilidad y brinda una delicada sensación de suavidad.",
+    "precio": "529999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925497/06-140x190_wkxsnb.png",
+    "subcategoria": "2-plazas"
+  },
+  {
+    "nombre": "Colchón 2 Plaza y medias Espuma Telgo Vida (160x200)",
+    "descripcion": "El colchón Telgo Vida está fabricado con una estructura de poliuretano Densidad media, que brinda una comodidad y firmeza inigualable.",
+    "precio": "179999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925493/01-140x190_rznxnu.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Colchón 2 Plaza y medias Resorte Telgo Dorado (160x200)",
+    "descripcion": "El colchón Telgo Dorado está fabricado con una estructura de resortes bicónicos bonell con doble marco perimetral, reforzado internamente con una capa de espuma que hace a la superficie de apoyo confortable.",
+    "precio": "219999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925494/02-140x190_qjlm0x.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Colchón en Caja 2 Plazas y media Espuma Meyer Dream Compact (160x200)",
+    "descripcion": "El colchón Dream Compact es la combinación perfecta de espumas de soporte y espumas soft que aportan adaptabilidad con una sensación suave y moderna",
+    "precio": "359999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925495/03-140x190_biu7r0.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Colchón 2 Plaza y media Espuma Meyer Dream (160x200)",
+    "descripcion": "El colchón Meyer Dream está fabricado con una estructura de poliuretano de densidad media, que brinda una comodidad y firmeza inigualable. De gran resistencia, confort y durabilidad.",
+    "precio": "379999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925495/04-140x190_zfvvev.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Colchón en Caja 2 Plazas y media Espuma Sealy Chill Cloud (160x200)",
+    "descripcion": "El colchón Cocoon Chill Cloud by Sealy está fabricado con materiales duraderos, para ofrecer una calidad en la que podés confiar.",
+    "precio": "499999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925496/05-140x190_gjjlmx.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Colchón 2 Plaza y media Resorte Inducol Delta (160x200)",
+    "descripcion": "El colchón Inducol Delta está revestido con la más alta calidad de tela jackard estampada, que permite ampliar su durabilidad y brinda una delicada sensación de suavidad.",
+    "precio": "549999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925497/06-140x190_wkxsnb.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Colchón King Espuma Telgo Vida (200x200)",
+    "descripcion": "El colchón Telgo Vida está fabricado con una estructura de poliuretano Densidad media, que brinda una comodidad y firmeza inigualable.",
+    "precio": "229999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925493/01-140x190_rznxnu.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Colchón King Resorte Telgo Dorado (200x200)",
+    "descripcion": "El colchón Telgo Dorado está fabricado con una estructura de resortes bicónicos bonell con doble marco perimetral, reforzado internamente con una capa de espuma que hace a la superficie de apoyo confortable.",
+    "precio": "249999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925494/02-140x190_qjlm0x.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Colchón en Caja King Espuma Meyer Dream Compact (200x200)",
+    "descripcion": "El colchón Dream Compact es la combinación perfecta de espumas de soporte y espumas soft que aportan adaptabilidad con una sensación suave y moderna",
+    "precio": "389999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925495/03-140x190_biu7r0.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Colchón King Espuma Meyer Dream (200x200)",
+    "descripcion": "El colchón Meyer Dream está fabricado con una estructura de poliuretano de densidad media, que brinda una comodidad y firmeza inigualable. De gran resistencia, confort y durabilidad.",
+    "precio": "419999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925495/04-140x190_zfvvev.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Colchón en Caja King Espuma Sealy Chill Cloud (200x200)",
+    "descripcion": "El colchón Cocoon Chill Cloud by Sealy está fabricado con materiales duraderos, para ofrecer una calidad en la que podés confiar.",
+    "precio": "539999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925496/05-140x190_gjjlmx.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Colchón King Resorte Inducol Delta (200x200)",
+    "descripcion": "El colchón Inducol Delta está revestido con la más alta calidad de tela jackard estampada, que permite ampliar su durabilidad y brinda una delicada sensación de suavidad.",
+    "precio": "589999",
+    "categoria": "Colchones",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925497/06-140x190_wkxsnb.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (70x40) Zlow Essential",
+    "descripcion": "Las almohadas Elite Hotel Essential Fiber poseen una cuidadosa selección de fibras virgen, conjugada, siliconada y cardada.",
+    "precio": "25999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925527/01-AlmohadasFibra_lgolwb.png",
+    "subcategoria": "fibra"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (70x40) Meyer Supreme",
+    "descripcion": "La almohada Meyer Supreme con núcleo 100% de fibra hueca cardada siliconada ofrece una gran suavidad y volumen al almacenar aire en su interior.",
+    "precio": "59999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925528/02-AlmohadasFibra_fsh0az.png",
+    "subcategoria": "fibra"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (70x50) Zlow Synthetic Duvet",
+    "descripcion": "La almohada Zlow Synthetic Duvet está fabricada 100% con fibra hueca siliconada de alta calidad; esta almohada premium se adapta delicadamente a la forma de tu cabeza y cuello, proporcionándote un soporte óptimo.",
+    "precio": "69999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925528/03-AlmohadasFibra_tkx6lt.png",
+    "subcategoria": "fibra"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (70x50) Sealy Lux Extra Soft",
+    "descripcion": "La almohada Sealy Lux Extra Soft está diseñada para quienes buscan una experiencia de descanso única, con una suavidad incomparable que recuerda la sensación de un duvet premium.",
+    "precio": "99999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925529/04-AlmohadasFibra_eitqks.png",
+    "subcategoria": "fibra"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (55x38) Zlow Visco Basic Cervical",
+    "descripcion": "La almohada Zlow Elite Hotel Visco Basic Cervical posee un cuidadoso diseño terapéutico que ayuda a evitar la mala postura. Su forma anatómica y antiestrés brinda un descanso ideal.",
+    "precio": "42999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925558/01-AlmohadasViscoelasticas_vzcfjn.png",
+    "subcategoria": "viscoelásticas"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (55x38) Meyer Visco Dream",
+    "descripcion": "La almohada Meyer Visco Dream es elaborada con la más alta tecnología; se adapta al peso y temperatura corporal.",
+    "precio": "69999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925559/02-AlmohadasViscoelasticas_xceepj.png",
+    "subcategoria": "viscoelásticas"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (60x40) Zlow Viscoelastic",
+    "descripcion": "La almohada Zlow Viscoelastic está diseñada con el equilibrio perfecto de firmeza y suavidad para proporcionar un soporte preciso.",
+    "precio": "139999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925560/03-AlmohadasViscoelasticas_gtefar.png",
+    "subcategoria": "viscoelásticas"
+  },
+  {
+    "nombre": "Set x 2 Almohadas (70x40) Sealy Memory Air",
+    "descripcion": "La almohada Sealy Memory Air se amolda a la temperatura del cuerpo y ofrece la postura ideal para un buen descanso.",
+    "precio": "229999",
+    "categoria": "Almohadas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925561/04-AlmohadasViscoelasticas_frbywg.png",
+    "subcategoria": "viscoelásticas"
+  },
+  {
+    "nombre": "Juego de Sábanas (Twin) Zlow Micro Cotton Gris",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "69999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925589/01-Sabanas_todas_Gris_tp9swn.png",
+    "subcategoria": "twin"
+  },
+  {
+    "nombre": "Juego de Sábanas (Twin) Zlow Micro Cotton Blanco",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "69999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925590/02-Sabanas_todas_Banco_yqcmxp.png",
+    "subcategoria": "twin"
+  },
+  {
+    "nombre": "Juego de Sábanas (Twin) Zlow Micro Cotton Azul",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "69999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925591/03-Sabanas_todas_Azul_c2tx0y.png",
+    "subcategoria": "twin"
+  },
+  {
+    "nombre": "Juego de Sábanas (Twin) Zlow Micro Cotton Nude",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "69999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925593/04-Sabanas_todas_Nude_bamacp.png",
+    "subcategoria": "twin"
+  },
+  {
+    "nombre": "Juego de Sábanas (Full) Zlow Micro Cotton Gris",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "79999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925589/01-Sabanas_todas_Gris_tp9swn.png",
+    "subcategoria": "full"
+  },
+  {
+    "nombre": "Juego de Sábanas (Full) Zlow Micro Cotton Blanco",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "79999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925590/02-Sabanas_todas_Banco_yqcmxp.png",
+    "subcategoria": "full"
+  },
+  {
+    "nombre": "Juego de Sábanas (Full) Zlow Micro Cotton Azul",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "79999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925591/03-Sabanas_todas_Azul_c2tx0y.png",
+    "subcategoria": "full"
+  },
+  {
+    "nombre": "Juego de Sábanas (Full) Zlow Micro Cotton Nude",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "79999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925593/04-Sabanas_todas_Nude_bamacp.png",
+    "subcategoria": "full"
+  },
+  {
+    "nombre": "Juego de Sábanas (Queen) Zlow Micro Cotton Gris",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "99999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925589/01-Sabanas_todas_Gris_tp9swn.png",
+    "subcategoria": "queen"
+  },
+  {
+    "nombre": "Juego de Sábanas (Queen) Zlow Micro Cotton Blanco",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "99999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925590/02-Sabanas_todas_Banco_yqcmxp.png",
+    "subcategoria": "queen"
+  },
+  {
+    "nombre": "Juego de Sábanas (Queen) Zlow Micro Cotton Azul",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "99999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925591/03-Sabanas_todas_Azul_c2tx0y.png",
+    "subcategoria": "queen"
+  },
+  {
+    "nombre": "Juego de Sábanas (Queen) Zlow Micro Cotton Nude",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "99999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925593/04-Sabanas_todas_Nude_bamacp.png",
+    "subcategoria": "queen"
+  },
+  {
+    "nombre": "Juego de Sábanas (King) Zlow Micro Cotton Gris",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "109999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925589/01-Sabanas_todas_Gris_tp9swn.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Juego de Sábanas (King) Zlow Micro Cotton Blanco",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "109999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925590/02-Sabanas_todas_Banco_yqcmxp.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Juego de Sábanas (King) Zlow Micro Cotton Azul",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "109999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925591/03-Sabanas_todas_Azul_c2tx0y.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Juego de Sábanas (King) Zlow Micro Cotton Nude",
+    "descripcion": "Juego de sábanas Zlow Micro Cotton Touch confeccionadas en 1500 hilos con una textura suave en 100% Poliester.",
+    "precio": "109999",
+    "categoria": "Sábanas",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925593/04-Sabanas_todas_Nude_bamacp.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Respaldo 1 Plaza Liso Creta Negro Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "151999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925619/01-RespaldoNegro_xxyeze.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Respaldo 1 Plaza Liso Creta Marron Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "151999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925620/02-RespaldoMarron_lkmfcw.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Respaldo 1 Plaza Liso Creta Gris Oscuro Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "151999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925621/03-RespaldoGrisOscuro_p2tj2m.png",
+    "subcategoria": "1-plaza"
+  },
+  {
+    "nombre": "Respaldo 2 Plazas y media Liso Creta Negro Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "191999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925619/01-RespaldoNegro_xxyeze.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Respaldo 2 Plazas y media Creta Marron Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "191999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925620/02-RespaldoMarron_lkmfcw.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Respaldo 2 Plazas y media Creta Gris Oscuro Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "191999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925621/03-RespaldoGrisOscuro_p2tj2m.png",
+    "subcategoria": "2-plazas-y-media"
+  },
+  {
+    "nombre": "Respaldo King Liso Creta Negro Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "211999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925619/01-RespaldoNegro_xxyeze.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Respaldo King Creta Marron Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "211999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925620/02-RespaldoMarron_lkmfcw.png",
+    "subcategoria": "king"
+  },
+  {
+    "nombre": "Respaldo King Creta Gris Oscuro Squad",
+    "descripcion": "El respaldo Creta es una excelente opción para mejorar la apariencia y funcionalidad en tu dormitorio. Es una pieza única, sofisticada y moderna, realizada en tela Cuerotex que posee una fina capa de PVC, haciendolo resistente a la fricción, aportando elegancia y confort a la habitación. La parte posterior está protegida con tejido no tejido.",
+    "precio": "211999",
+    "categoria": "Respaldos",
+    "imagen": "https://res.cloudinary.com/dseqeimme/image/upload/v1751925621/03-RespaldoGrisOscuro_p2tj2m.png",
+    "subcategoria": "king"
+  }
+]

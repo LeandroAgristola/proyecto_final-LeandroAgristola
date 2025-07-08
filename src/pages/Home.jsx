@@ -21,7 +21,7 @@ function Home() {
             src={bannerOfertas}
             alt="Oferta en Almohadas"
             className="img-fluid w-100 rounded" // img-fluid para responsividad, w-100 para ancho completo, rounded para bordes
-            style={{ maxHeight: '250px', objectFit: 'cover' }} // Ajusta la altura máxima según tu diseño
+            style={{ maxHeight: '300px', objectFit: 'cover' }} 
           />
         </Link>
       </div>
