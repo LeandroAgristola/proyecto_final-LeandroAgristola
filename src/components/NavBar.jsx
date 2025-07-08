@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaTimes, FaBoxOpen, FaFire } from 'react-icons/fa';
 import logoColchones from '../assets/LogoColchones.png';
 import styled from 'styled-components';
+import { Collapse } from 'bootstrap'; // Import Collapse component from bootstrap
 
 // Componentes estilizados existentes
 const StyledSearchInput = styled.input`
@@ -30,7 +31,8 @@ const StyledSearchButton = styled.button`
   }
 `;
 
-// Modify existing StyledUserDropdownMenu to apply new colors for both desktop and mobile
+// Modify existing StyledUserDropdownMenu and StyledCategoryDropdownMenu
+// to be controlled by React state (display: none/block)
 const StyledUserDropdownMenu = styled.ul`
   position: absolute;
   top: 100% !important;
@@ -40,25 +42,54 @@ const StyledUserDropdownMenu = styled.ul`
   z-index: 1050;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
   margin-top: 5px;
-  background-color: #495057 !important; /* Applied for all (desktop/mobile) */
+  background-color: #495057 !important;
+  display: none; /* Hidden by default, controlled by React state/class */
+
+  &.open {
+    display: block;
+  }
 
   .dropdown-item {
-    color: white !important; /* White text for dropdown items */
+    color: white !important;
     &:hover {
-      background-color: #6c757d !important; /* Lighter on hover */
+      background-color: #6c757d !important;
     }
+  }
+
+  @media (max-width: 991.98px) {
+    position: static !important; /* Stacks on mobile */
+    transform: none !important;
+    left: auto !important;
+    margin-top: 0 !important;
+    width: 100%;
+    text-align: center;
+    box-shadow: none;
   }
 `;
 
-// NEW Styled Component for Desktop Category Dropdown Menu (applies desired colors)
 const StyledCategoryDropdownMenu = styled.ul`
-  background-color: #495057 !important; /* Apply lighter background for desktop */
+  background-color: #495057 !important;
+  display: none; /* Hidden by default, controlled by React state/class */
+
+  &.open {
+    display: block;
+  }
 
   .dropdown-item {
-    color: white !important; /* White text for dropdown items */
+    color: white !important;
     &:hover {
-      background-color: #6c757d !important; /* Lighter on hover */
+      background-color: #6c757d !important;
     }
+  }
+
+  @media (max-width: 991.98px) {
+    position: static !important; /* Stacks on mobile */
+    transform: none !important;
+    left: auto !important;
+    margin-top: 0 !important;
+    width: 100%;
+    text-align: center;
+    box-shadow: none;
   }
 `;
 
@@ -66,46 +97,48 @@ const StyledCategoryDropdownMenu = styled.ul`
 const StyledMobileCollapse = styled.div`
   @media (max-width: 991.98px) { /* Applies only on mobile and tablets */
     position: fixed;
-    top: var(--mobile-navbar-total-height, 0px); /* Will be calculated by JS or fixed */
+    top: var(--mobile-navbar-total-height, 0px);
     left: 0;
     width: 100%;
-    height: calc(100vh - var(--mobile-navbar-total-height, 0px)); /* Full height minus header */
-    background-color: #343a40; /* Dark background as requested */
-    z-index: 1040; /* Above regular content, below modals */
-    overflow-y: auto; /* Enable scrolling if content overflows */
+    height: calc(100vh - var(--mobile-navbar-total-height, 0px));
+    background-color: #343a40;
+    z-index: 1040;
+    overflow-y: auto;
 
     .navbar-nav {
-      flex-direction: column; /* Stack items vertically */
-      align-items: center; /* Center horizontally */
-      padding-top: 20px; /* Some padding at the top of the menu */
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
       width: 100%;
     }
 
     .nav-item {
       width: 100%;
       text-align: center;
-      margin-bottom: 10px; /* Space between items */
+      margin-bottom: 10px;
     }
 
     .nav-link {
-      padding: 15px 0 !important; /* Larger touch area */
-      color: white !important; /* White text for main links */
+      padding: 15px 0 !important;
+      color: white !important;
       font-size: 1.2rem;
       &:hover {
-        background-color: #555 !important; /* Slightly lighter on hover */
+        background-color: #555 !important;
       }
     }
 
-    /* Submenu styles for mobile, these will override StyledCategoryDropdownMenu for mobile */
+    /* Submenu styles for mobile, these override default dropdown styling */
     .dropdown-menu {
-      background-color: #495057 !important; /* Slightly lighter than main menu for submenus */
+      /* Base colors already from StyledCategoryDropdownMenu/StyledUserDropdownMenu */
+      /* Ensure they appear correctly when .open is applied */
+      background-color: #495057 !important; /* Consistent with desktop submenu color */
       border: none;
       padding: 0;
       width: 100%;
-      position: static !important; /* Don't float, keep in flow */
-      transform: none !important; /* Remove any previous transforms */
-      float: none !important; /* Remove float */
-      text-align: center; /* Center submenu items */
+      position: static !important;
+      transform: none !important;
+      float: none !important;
+      text-align: center;
       box-shadow: none;
 
       li {
@@ -113,7 +146,7 @@ const StyledMobileCollapse = styled.div`
       }
 
       .dropdown-item {
-        color: white !important; /* White text for submenu items */
+        color: white !important;
         padding: 10px 0;
         &:hover {
           background-color: #6c757d !important;
@@ -128,8 +161,15 @@ function NavBar() {
   const { carrito } = useCart();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for hamburger menu
-  const [mobileHeaderHeight, setMobileHeaderHeight] = useState(0); // State to store mobile header height
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mobileHeaderHeight, setMobileHeaderHeight] = useState(0);
+
+  // New states for controlling dropdowns directly in React
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [openCategoryDropdown, setOpenCategoryDropdown] = useState(null); // Stores the name of the currently open category dropdown
+
+  const navbarCollapseRef = useRef(null);
+  const bsCollapseInstance = useRef(null);
 
   const categorias = [
     {
@@ -171,6 +211,7 @@ function NavBar() {
   const handleLogout = () => {
     logout();
     navigate('/');
+    setIsUserDropdownOpen(false); // Close user dropdown on logout
   };
 
   const totalItemsCarrito = carrito.reduce((total, item) => total + item.cantidad, 0);
@@ -178,14 +219,49 @@ function NavBar() {
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`/productos?busqueda=${searchTerm}`);
-    setIsMenuOpen(false); // Close menu after search
+    if (bsCollapseInstance.current) {
+        bsCollapseInstance.current.hide(); // Close main menu
+    }
+    setIsMenuOpen(false); // Sync state
   };
 
+  // Main menu toggle function (now controls Bootstrap instance directly)
   const handleToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
+    if (bsCollapseInstance.current) {
+      if (isMenuOpen) {
+        bsCollapseInstance.current.hide();
+      } else {
+        bsCollapseInstance.current.show();
+      }
+    }
+    // setIsMenuOpen will be updated by Bootstrap's 'shown.bs.collapse'/'hidden.bs.collapse' events
   };
 
-  // Effect to measure mobile header height for accurate menu positioning
+  // Function to handle closing the main menu when a navigable link is clicked
+  const handleLinkClick = () => {
+    if (bsCollapseInstance.current) {
+      bsCollapseInstance.current.hide(); // Close main menu
+    }
+    setIsMenuOpen(false); // Sync state
+    setIsUserDropdownOpen(false); // Close any open user dropdown
+    setOpenCategoryDropdown(null); // Close any open category dropdown
+  };
+
+  // Handle category dropdown toggle
+  const handleCategoryDropdownToggle = (categoryName) => {
+    if (openCategoryDropdown === categoryName) {
+      setOpenCategoryDropdown(null); // Close if already open
+    } else {
+      setOpenCategoryDropdown(categoryName); // Open this one
+    }
+  };
+
+  // Handle user dropdown toggle
+  const handleUserDropdownToggle = () => {
+    setIsUserDropdownOpen(!isUserDropdownOpen);
+  };
+
+  // Effect to measure mobile header height
   useEffect(() => {
     const mobileHeader = document.getElementById('mobile-header');
     if (mobileHeader) {
@@ -193,7 +269,7 @@ function NavBar() {
     }
   }, [isMenuOpen]);
 
-  // Set CSS variable for StyledMobileCollapse to use for height calculation
+  // Set CSS variable for StyledMobileCollapse
   useEffect(() => {
     document.documentElement.style.setProperty('--mobile-navbar-total-height', `${mobileHeaderHeight}px`);
   }, [mobileHeaderHeight]);
@@ -202,15 +278,52 @@ function NavBar() {
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.height = '100vh';
     } else {
       document.body.style.overflow = '';
+      document.body.style.height = '';
     }
-    // Cleanup function to reset overflow when component unmounts or before next effect
     return () => {
       document.body.style.overflow = '';
+      document.body.style.height = '';
     };
   }, [isMenuOpen]);
 
+  // Effect to initialize Bootstrap Collapse and listen for its events
+  useEffect(() => {
+    if (navbarCollapseRef.current) {
+      // Ensure only one instance is created
+      if (!bsCollapseInstance.current) {
+          bsCollapseInstance.current = new Collapse(navbarCollapseRef.current, {
+            toggle: false // Important: prevent auto-toggling on init
+          });
+      }
+
+      const collapseElement = navbarCollapseRef.current;
+
+      const handleShown = () => setIsMenuOpen(true);
+      const handleHidden = () => {
+        setIsMenuOpen(false);
+        // Also close any open dropdowns when the main menu closes
+        setIsUserDropdownOpen(false);
+        setOpenCategoryDropdown(null);
+      };
+
+      // Add event listeners for Bootstrap's collapse events
+      collapseElement.addEventListener('shown.bs.collapse', handleShown);
+      collapseElement.addEventListener('hidden.bs.collapse', handleHidden);
+
+      // Cleanup event listeners and dispose Bootstrap instance on unmount
+      return () => {
+        collapseElement.removeEventListener('shown.bs.collapse', handleShown);
+        collapseElement.removeEventListener('hidden.bs.collapse', handleHidden);
+        if (bsCollapseInstance.current) {
+          bsCollapseInstance.current.dispose();
+          bsCollapseInstance.current = null;
+        }
+      };
+    }
+  }, []); // Empty dependency array means this runs once on mount
 
   return (
     <>
@@ -244,13 +357,12 @@ function NavBar() {
                   to="#"
                   id="userDropdown"
                   role="button"
-                  data-bs-toggle="dropdown"
+                  data-bs-toggle="dropdown" // Desktop user dropdown still uses data-bs-toggle
                   aria-expanded="false"
                 >
                   <FaUserCircle size={24} />
                   <small>Hola, {usuario.nombre}</small>
                 </Link>
-                {/* Use StyledUserDropdownMenu for desktop user dropdown */}
                 <StyledUserDropdownMenu className="dropdown-menu" aria-labelledby="userDropdown">
                   <li><Link className="dropdown-item" to="/mis-compras">Mis Compras</Link></li>
                   <li><Link className="dropdown-item" to="/datos-personales">Datos Personales</Link></li>
@@ -294,33 +406,34 @@ function NavBar() {
           <div className="d-flex justify-content-center align-items-center py-2 mb-2">
             {usuario ? (
               <div className="dropdown me-3">
-                <Link
-                  className="nav-link text-dark d-flex align-items-center" // Changed to side-by-side
-                  to="#"
+                <button // Changed to button for mobile user dropdown toggle, no data-bs-toggle
+                  className="nav-link text-dark d-flex align-items-center"
                   id="userDropdownMobile"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  type="button"
+                  aria-expanded={isUserDropdownOpen}
+                  onClick={handleUserDropdownToggle}
                 >
                   <FaUserCircle size={24} className="me-1" />
                   <small>Hola, {usuario.nombre}</small>
-                </Link>
-                {/* Use StyledUserDropdownMenu for mobile user dropdown */}
-                <StyledUserDropdownMenu className="dropdown-menu" aria-labelledby="userDropdownMobile">
-                  <li><Link className="dropdown-item" to="/mis-compras">Mis Compras</Link></li>
-                  <li><Link className="dropdown-item" to="/datos-personales">Datos Personales</Link></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
-                </StyledUserDropdownMenu>
+                </button>
+                {/* Conditionally render based on React state */}
+                {isUserDropdownOpen && (
+                  <StyledUserDropdownMenu className="dropdown-menu open" aria-labelledby="userDropdownMobile">
+                    <li><Link className="dropdown-item" to="/mis-compras" onClick={handleLinkClick}>Mis Compras</Link></li>
+                    <li><Link className="dropdown-item" to="/datos-personales" onClick={handleLinkClick}>Datos Personales</Link></li>
+                    <li><hr className="dropdown-divider" /></li>
+                    <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
+                  </StyledUserDropdownMenu>
+                )}
               </div>
             ) : (
-              <Link className="nav-link text-dark me-3 d-flex align-items-center" to="/login"> {/* Changed to side-by-side */}
+              <Link className="nav-link text-dark me-3 d-flex align-items-center" to="/login" onClick={handleLinkClick}>
                 <FaUserCircle size={24} className="me-1" />
                 <small>Mi Cuenta</small>
               </Link>
             )}
 
-            <Link className="nav-link text-dark d-flex align-items-center position-relative" to="/cart"> {/* Changed to side-by-side, removed text */}
+            <Link className="nav-link text-dark d-flex align-items-center position-relative" to="/cart" onClick={handleLinkClick}>
               <FaShoppingCart size={24} />
               {totalItemsCarrito > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -328,7 +441,6 @@ function NavBar() {
                   <span className="visually-hidden">productos en el carrito</span>
                 </span>
               )}
-              {/* Removed <small>Carrito</small> text */}
             </Link>
           </div>
 
@@ -337,13 +449,11 @@ function NavBar() {
             <button
               className="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
               data-bs-target="#navbarNav"
               aria-controls="navbarNav"
               aria-expanded={isMenuOpen}
-              aria-label="Toggle navigation"
-              onClick={handleToggle}
-              style={{ border: 'none', backgroundColor: 'transparent' }} // Remove default button styles
+              onClick={handleToggle} // Only onClick, no data-bs-toggle
+              style={{ border: 'none', backgroundColor: 'transparent' }}
             >
               {isMenuOpen ? <FaTimes size={24} color="#343a40" /> : <FaBars size={24} color="#343a40" />}
             </button>
@@ -364,19 +474,19 @@ function NavBar() {
         </div>
       </div>
 
-      {/* NAVBAR HORIZONTAL - This remains the main collapsible part */}
+      {/* NAVBAR HORIZONTAL */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-0">
         <div className="container">
-          <StyledMobileCollapse className="collapse navbar-collapse" id="navbarNav">
+          <StyledMobileCollapse className="collapse navbar-collapse" id="navbarNav" ref={navbarCollapseRef}>
             <ul className="navbar-nav w-100 justify-content-between">
               <li className="nav-item">
-                <Link className="nav-link py-3 px-4" to="/ofertas" onClick={handleToggle}>
+                <Link className="nav-link py-3 px-4" to="/ofertas" onClick={handleLinkClick}>
                   <FaFire className="me-2" />
                   Ofertas
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link py-3 px-4" to="/mas-vendidos" onClick={handleToggle}>
+                <Link className="nav-link py-3 px-4" to="/mas-vendidos" onClick={handleLinkClick}>
                   <FaBoxOpen className="me-2" />
                   Más Vendidos
                 </Link>
@@ -384,26 +494,27 @@ function NavBar() {
 
               {categorias.map((categoria, index) => (
                 <li className="nav-item dropdown" key={index}>
-                  <Link
+                  <button // Changed from Link to button for category dropdown toggles, no data-bs-toggle
                     className="nav-link dropdown-toggle py-3 px-4"
-                    to={`/productos?categoria=${categoria.nombre.toLowerCase()}`}
                     id={`navbarDropdown${categoria.nombre}`}
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                    type="button"
+                    aria-expanded={openCategoryDropdown === categoria.nombre}
+                    onClick={() => handleCategoryDropdownToggle(categoria.nombre)}
                   >
                     {categoria.nombre}
-                  </Link>
-                  {/* Use StyledCategoryDropdownMenu for desktop category dropdowns */}
-                  <StyledCategoryDropdownMenu className="dropdown-menu" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
-                    {categoria.subcategorias.map((subcategoria, subIndex) => (
-                      <li key={subIndex}>
-                        <Link className="dropdown-item" to={`/productos?categoria=${categoria.nombre.toLowerCase()}&subcategoria=${subcategoria.value}`} onClick={handleToggle}>
-                          {subcategoria.display}
-                        </Link>
-                      </li>
-                    ))}
-                  </StyledCategoryDropdownMenu>
+                  </button>
+                  {/* Conditionally render based on React state */}
+                  {openCategoryDropdown === categoria.nombre && (
+                    <StyledCategoryDropdownMenu className="dropdown-menu open" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
+                      {categoria.subcategorias.map((subcategoria, subIndex) => (
+                        <li key={subIndex}>
+                          <Link className="dropdown-item" to={`/productos?categoria=${categoria.nombre.toLowerCase()}&subcategoria=${subcategoria.value}`} onClick={handleLinkClick}>
+                            {subcategoria.display}
+                          </Link>
+                        </li>
+                      ))}
+                    </StyledCategoryDropdownMenu>
+                  )}
                 </li>
               ))}
             </ul>
