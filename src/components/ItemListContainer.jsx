@@ -1,90 +1,106 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'; // Importo useLocation para leer los parámetros de la URL
+import { useLocation } from 'react-router-dom';
 import Item from './Item.jsx';
 import { getProductos } from '../services/api.js';
 
 function ItemListContainer() {
-  // Mi estado para guardar todos los productos obtenidos de la API.
+  // Mi estado para guardar todos los productos obtenidos de la API, sin filtrar.
   const [allProductos, setAllProductos] = useState([]);
-  // Mi estado para guardar los productos que realmente voy a mostrar después de aplicar filtros.
+  // Mi estado para guardar los productos que se mostrarán después de aplicar todos los filtros.
   const [productosFiltrados, setProductosFiltrados] = useState([]);
-  // Estado para indicar si los productos están cargando.
+  // Estado para indicar si la carga de productos está en progreso.
   const [cargando, setCargando] = useState(true);
-  // Estado para manejar errores durante la carga.
+  // Estado para almacenar cualquier mensaje de error.
   const [error, setError] = useState(null);
 
-  // Hook de React Router para acceder a la ubicación actual, incluyendo los parámetros de búsqueda (query params).
+  // Hook de React Router para obtener la información de la URL, incluyendo los parámetros de búsqueda.
   const location = useLocation();
 
-  // Función auxiliar para obtener los parámetros de búsqueda de la URL (ej. ?categoria=colchones&subcategoria=king).
+  // Función auxiliar que normaliza una cadena de texto, eliminando acentos y convirtiendo a minúsculas.
+  // Esto es crucial para que la búsqueda sea insensible a acentos y mayúsculas/minúsculas.
+  const normalizeString = (str) => {
+    if (!str) return ''; // Me aseguro de que la cadena no sea nula o indefinida
+    return str
+      .normalize("NFD") // Descompone caracteres acentuados en su base y el acento (ej. 'ó' se vuelve 'o' + '´')
+      .replace(/[\u0300-\u036f]/g, "") // Elimina los caracteres diacríticos (los acentos descompuestos)
+      .toLowerCase(); // Convierte todo a minúsculas
+  };
+
+
+  // Función auxiliar para extraer los parámetros de filtro de la URL.
   const getQueryParams = () => {
     const params = new URLSearchParams(location.search);
     return {
       categoria: params.get('categoria'),
       subcategoria: params.get('subcategoria'),
-      busqueda: params.get('busqueda') 
+      busqueda: params.get('busqueda')
     };
   };
 
-  // Efecto que se encarga de obtener TODOS los productos de la API.
-  // Este se ejecuta una única vez al montar el componente.
+  // Efecto para cargar TODOS los productos de la API, se ejecuta una sola vez al montar el componente.
   useEffect(() => {
-    // Indico que la carga está en progreso.
     setCargando(true);
-    // Limpio cualquier error previo.
     setError(null);
     getProductos()
       .then(res => {
-        // Al recibir los datos, los guardo en 'allProductos' (todos los productos sin filtrar).
-        // Esto me permite tener la lista completa para aplicar filtros posteriormente.
         setAllProductos(res.data);
-        console.log("Productos cargados desde API (todos):", res.data); // Para depuración
+        console.log("Productos cargados desde API (todos):", res.data); // Para depuración.
       })
       .catch(err => {
-        console.error("Detalles del error al cargar productos:", err.response || err); // Depuración del error
+        console.error("Detalles del error al cargar productos:", err.response || err);
         setError('¡Ups! Hubo un problema al cargar los productos. Por favor, intenta de nuevo más tarde.');
       })
-      .finally(() => setCargando(false)); // La carga ha terminado.
-  }, []); // El array vacío asegura que este efecto solo se ejecute una vez al montar.
+      .finally(() => setCargando(false));
+  }, []);
 
 
-  // Efecto que se encarga de aplicar los filtros cada vez que cambian los parámetros de la URL
-  // O cuando la lista completa de productos (allProductos) se carga o actualiza.
+  // Efecto para aplicar los filtros (por categoría, subcategoría, y ahora por búsqueda de texto).
   useEffect(() => {
-    const { categoria, subcategoria, busqueda } = getQueryParams(); // Obtengo los filtros de la URL
-    let productosTemp = [...allProductos]; // Creo una copia para no modificar el array original
+    const { categoria, subcategoria, busqueda } = getQueryParams();
+    let productosTemp = [...allProductos];
 
-    // Aplico el filtro por categoría si existe en la URL
-    if (categoria) {
-      productosTemp = productosTemp.filter(producto => 
-        producto.categoria && producto.categoria.toLowerCase() === categoria.toLowerCase()
+    // Normalizo los términos de búsqueda para poder compararlos sin problemas de acentos/mayúsculas.
+    const normalizedCategoria = normalizeString(categoria);
+    const normalizedSubcategoria = normalizeString(subcategoria);
+    const normalizedBusqueda = normalizeString(busqueda);
+
+
+    // Paso 1: Filtrar por categoría (si está presente en la URL).
+    if (normalizedCategoria) {
+      productosTemp = productosTemp.filter(producto =>
+        producto.categoria && normalizeString(producto.categoria) === normalizedCategoria
       );
     }
 
-    // Aplico el filtro por subcategoría si existe en la URL
-    if (subcategoria) {
-      productosTemp = productosTemp.filter(producto => 
-        producto.subcategoria && producto.subcategoria.toLowerCase() === subcategoria.toLowerCase()
+    // Paso 2: Filtrar por subcategoría (si está presente en la URL).
+    if (normalizedSubcategoria) {
+      productosTemp = productosTemp.filter(producto =>
+        producto.subcategoria && normalizeString(producto.subcategoria) === normalizedSubcategoria
       );
     }
-    // Actualizo el estado con los productos ya filtrados, que son los que se mostrarán.
+
+    // Paso 3: Filtrar por término de búsqueda (si está presente en la URL).
+    if (normalizedBusqueda) {
+      productosTemp = productosTemp.filter(producto =>
+        (producto.nombre && normalizeString(producto.nombre).includes(normalizedBusqueda)) ||
+        (producto.descripcion && normalizeString(producto.descripcion).includes(normalizedBusqueda))
+      );
+    }
+
     setProductosFiltrados(productosTemp);
-  }, [allProductos, location.search]); // Este efecto se re-ejecuta si 'allProductos' cambia o si la URL cambia (location.search).
+    // console.log("Productos filtrados finales:", productosTemp); // Para depuración
+  }, [allProductos, location.search]); // Dependencias: la lista completa de productos y los cambios en la URL.
 
 
   // --- Renderizado Condicional ---
-  // Muestro un mensaje de carga mientras se obtienen los datos.
   if (cargando) return <p className="text-center py-5">Cargando productos...</p>;
-  // Muestro un mensaje de error si la carga falló.
   if (error) return <p className="text-danger text-center py-5">{error}</p>;
-  // Si no hay productos después de aplicar los filtros, muestro un mensaje.
-  if (productosFiltrados.length === 0) return <p className="text-center py-5">No se encontraron productos para los criterios seleccionados.</p>;
+  if (productosFiltrados.length === 0) return <p className="text-center py-5">No se encontraron productos que coincidan con tu búsqueda.</p>;
 
 
   return (
     <div className="container py-4">
       <div className="row">
-        {/* Mapeo los productos filtrados para mostrarlos */}
         {productosFiltrados.map(producto => (
           <Item key={producto.id} producto={producto} />
         ))}

@@ -1,28 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react'; // Importo useState para manejar el estado de la búsqueda
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaBoxOpen, FaFire, FaAngleDown } from 'react-icons/fa';
-import logoColchones from '../assets/LogoColchones.png'; 
+import logoColchones from '../assets/LogoColchones.png';
 
 function NavBar() {
   const { usuario, logout } = useAuth();
   const { carrito } = useCart();
   const navigate = useNavigate();
+  // Mi estado para guardar el texto que el usuario escribe en la barra de búsqueda.
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
-
-  const totalItemsCarrito = carrito.reduce((total, item) => total + item.cantidad, 0);
-
+  // Mis categorías y subcategorías disponibles, las mismas que en ProductForm.
+  // Esto mantiene la coherencia en las opciones de categorización.
   const categorias = [
     {
       nombre: 'Colchones',
       subcategorias: [
         { display: '1 Plaza', value: '1-plaza' },
-        { display: '1 Plaza y Media ', value: '1-plaza-y-media' },
+        { display: '1 Plaza y Media', value: '1-plaza-y-media' },
         { display: '2 Plazas', value: '2-plazas' },
         { display: '2 Plazas y Media', value: '2-plazas-y-media' },
         { display: 'King', value: 'king' }
@@ -54,6 +51,24 @@ function NavBar() {
     }
   ];
 
+  // Manejador para el cierre de sesión del usuario.
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  // Calculo la cantidad total de ítems en el carrito para mostrar en el icono.
+  const totalItemsCarrito = carrito.reduce((total, item) => total + item.cantidad, 0);
+
+  // Manejador para cuando el usuario presiona Enter o hace clic en el botón de búsqueda.
+  const handleSearch = (e) => {
+    e.preventDefault(); // Evito que el formulario recargue la página.
+    // Navego a la página de productos, pasando el término de búsqueda como un parámetro 'busqueda' en la URL.
+    navigate(`/productos?busqueda=${searchTerm}`);
+    // Opcional: Podría resetear el campo de búsqueda aquí: setSearchTerm('');
+  };
+
+
   return (
     <>
       {/* HEADER (Parte superior con logo, búsqueda, mi cuenta, carrito) */}
@@ -64,24 +79,31 @@ function NavBar() {
             <span className="text-dark fw-bold">Colchonera React</span>
           </Link>
 
-          {/* Barra de búsqueda */}
-          <div className="input-group w-50">
-            <input type="text" className="form-control" placeholder="Buscar productos..." aria-label="Buscar productos" />
-            <button className="btn btn-outline-secondary" type="button">
+          {/* Barra de búsqueda - Ahora es un formulario que llama a handleSearch al enviar */}
+          <form className="input-group w-50" onSubmit={handleSearch}>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Buscar productos por nombre o descripción..."
+              aria-label="Buscar productos"
+              value={searchTerm} // El valor del input está controlado por mi estado 'searchTerm'.
+              onChange={(e) => setSearchTerm(e.target.value)} // Actualizo el estado cada vez que el usuario escribe.
+            />
+            <button className="btn btn-outline-secondary" type="submit"> {/* Cambiado a type="submit" */}
               <FaSearch /> {/* Icono de búsqueda */}
             </button>
-          </div>
+          </form>
 
           <div className="d-flex align-items-center">
             {/* Icono Mi Cuenta */}
             <Link className="nav-link text-dark me-3 d-flex flex-column align-items-center" to="/login">
-              <FaUserCircle size={24} /> {/* Icono de usuario */}
+              <FaUserCircle size={24} />
               <small>{usuario ? `Hola, ${usuario.nombre}` : 'Mi Cuenta'}</small>
             </Link>
 
             {/* Icono Carrito */}
             <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative" to="/cart">
-              <FaShoppingCart size={24} /> {/* Icono de carrito */}
+              <FaShoppingCart size={24} />
               {totalItemsCarrito > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   {totalItemsCarrito}
@@ -126,7 +148,7 @@ function NavBar() {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {categoria.nombre} 
+                    {categoria.nombre} <FaAngleDown className="ms-1" />
                   </Link>
                   <ul className="dropdown-menu" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
                     {/* Genera subcategorías con Link y parámetros de URL */}
