@@ -1,19 +1,51 @@
-import React, { useState } from 'react'; // Importo useState para manejar el estado de la búsqueda
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaBoxOpen, FaFire, FaAngleDown } from 'react-icons/fa';
 import logoColchones from '../assets/LogoColchones.png';
+import styled from 'styled-components';
+
+// Defino un componente estilizado para el input de búsqueda.
+const StyledSearchInput = styled.input`
+  /* Estilos base del input, como el de Bootstrap */
+  &:focus {
+    border-color: #555;
+    box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25);
+  }
+`;
+
+// Defino un componente estilizado para el botón de búsqueda con los nuevos ajustes.
+const StyledSearchButton = styled.button`
+  background-color: #343a40; /* Mantengo el fondo gris oscuro. */
+  border-color: #343a40;     /* Mantengo el borde gris oscuro. */
+  color: white;             /* Mantengo el icono/texto blanco. */
+  
+  /* ESTILOS PARA INTEGRAR EL BOTÓN A LA BARRA DE BÚSQUEDA */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+
+  /* NUEVO: Hacer el botón más ancho */
+  width: 60px; /* Le doy un ancho fijo para que no quede tan chico. Puedes ajustar este valor. */
+  flex-shrink: 0; /* Aseguro que el botón no se encoja si el espacio es limitado. */
+
+  /* NUEVO: Elimino el cambio de color de fondo y borde en hover.
+     Ahora, solo el cursor indica interactividad, manteniendo el color estático. */
+  &:hover {
+    background-color: #343a40; /* Mantengo el mismo color en hover. */
+    border-color: #343a40;     /* Mantengo el mismo color de borde en hover. */
+  }
+`;
+
 
 function NavBar() {
   const { usuario, logout } = useAuth();
   const { carrito } = useCart();
   const navigate = useNavigate();
-  // Mi estado para guardar el texto que el usuario escribe en la barra de búsqueda.
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mis categorías y subcategorías disponibles, las mismas que en ProductForm.
-  // Esto mantiene la coherencia en las opciones de categorización.
   const categorias = [
     {
       nombre: 'Colchones',
@@ -51,21 +83,16 @@ function NavBar() {
     }
   ];
 
-  // Manejador para el cierre de sesión del usuario.
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  // Calculo la cantidad total de ítems en el carrito para mostrar en el icono.
   const totalItemsCarrito = carrito.reduce((total, item) => total + item.cantidad, 0);
 
-  // Manejador para cuando el usuario presiona Enter o hace clic en el botón de búsqueda.
   const handleSearch = (e) => {
-    e.preventDefault(); // Evito que el formulario recargue la página.
-    // Navego a la página de productos, pasando el término de búsqueda como un parámetro 'busqueda' en la URL.
+    e.preventDefault();
     navigate(`/productos?busqueda=${searchTerm}`);
-    // Opcional: Podría resetear el campo de búsqueda aquí: setSearchTerm('');
   };
 
 
@@ -79,19 +106,19 @@ function NavBar() {
             <span className="text-dark fw-bold">Colchonera React</span>
           </Link>
 
-          {/* Barra de búsqueda - Ahora es un formulario que llama a handleSearch al enviar */}
+          {/* Barra de búsqueda - Ahora usa componentes estilizados */}
           <form className="input-group w-50" onSubmit={handleSearch}>
-            <input
+            <StyledSearchInput
               type="text"
               className="form-control"
               placeholder="Buscar productos por nombre o descripción..."
               aria-label="Buscar productos"
-              value={searchTerm} // El valor del input está controlado por mi estado 'searchTerm'.
-              onChange={(e) => setSearchTerm(e.target.value)} // Actualizo el estado cada vez que el usuario escribe.
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="btn btn-outline-secondary" type="submit"> {/* Cambiado a type="submit" */}
-              <FaSearch /> {/* Icono de búsqueda */}
-            </button>
+            <StyledSearchButton type="submit">
+              <FaSearch />
+            </StyledSearchButton>
           </form>
 
           <div className="d-flex align-items-center">

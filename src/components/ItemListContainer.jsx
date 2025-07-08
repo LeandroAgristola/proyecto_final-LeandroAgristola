@@ -16,7 +16,7 @@ function ItemListContainer() {
 
   // **** ESTADOS PARA PAGINACIÓN ****
   const [currentPage, setCurrentPage] = useState(1); // La página actual en la que me encuentro. Empiezo en la primera.
-  const [itemsPerPage] = useState(9); // Cuántos productos quiero mostrar por página (ej. 3 columnas * 3 filas).
+  const [itemsPerPage] = useState(8); // Cuántos productos quiero mostrar por página (ej. 3 columnas * 3 filas).
 
 
   // Hook de React Router para obtener la información de la URL, incluyendo los parámetros de búsqueda.
