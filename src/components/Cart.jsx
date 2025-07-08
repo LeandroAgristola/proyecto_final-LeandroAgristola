@@ -1,17 +1,23 @@
-import React, { useState } from 'react'; // Importo useState para el estado de la compra simulada.
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext.jsx';
-import { toast } from 'react-toastify'; // Importo toast para las notificaciones.
+import { toast } from 'react-toastify';
+import { Modal, Button } from 'react-bootstrap';
+import styled from 'styled-components'; // No es estrictamente necesario aquí si QuantityControls ya lo usa, pero lo mantengo.
+import { Link } from 'react-router-dom';
+import QuantityControls from './common/QuantityControls.jsx'; // Importo mi componente de control de cantidad
+
+
+// NOTA: StyledQuantityButton ya no se define aquí, se importa desde QuantityControls.
+// Sin embargo, si tuviera estilos específicos SÓLO para el carrito, los pondría aquí.
 
 
 function Cart() {
   const { carrito, agregarAlCarrito, disminuirCantidad, vaciarCarrito } = useCart();
-  // Estado para simular el proceso de compra y su carga/animación.
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
+  const [showClearCartModal, setShowClearCartModal] = useState(false);
 
 
-  // Función para formatear el precio, la misma que uso en Item.jsx y ItemDetail.jsx.
-  // Esto asegura consistencia en cómo se muestra el precio.
   const formatPrice = (price) => {
     const numericPrice = parseFloat(price);
     return new Intl.NumberFormat('es-AR', {
@@ -23,49 +29,50 @@ function Cart() {
   };
 
 
-  // Calculo el total de la compra sumando el precio * cantidad de cada ítem en el carrito.
   const totalCompra = carrito.reduce((total, item) => total + (parseFloat(item.precio) * item.cantidad), 0);
 
 
-  // Manejador para vaciar el carrito con una confirmación.
-  const handleVaciarCarrito = () => {
-    // NUEVO: Pregunto al usuario si realmente quiere vaciar el carrito.
-    if (window.confirm('¿Estás seguro de que quieres vaciar todo el carrito?')) {
-      vaciarCarrito(); // Si confirma, llamo a la función para vaciar.
-      toast.info('El carrito ha sido vaciado.'); // Notifico al usuario.
-    }
+  const handleShowClearCartModal = () => setShowClearCartModal(true);
+  const handleCloseClearCartModal = () => setShowClearCartModal(false);
+  const handleConfirmClearCart = () => {
+    vaciarCarrito();
+    handleCloseClearCartModal();
+    toast.info('El carrito ha sido vaciado.');
+    if (purchaseCompleted) setPurchaseCompleted(false); 
   };
 
 
-  // Manejador para simular la confirmación de la compra.
   const handleConfirmPurchase = () => {
     if (carrito.length === 0) {
       toast.error('Tu carrito está vacío. Agrega productos para confirmar la compra.');
       return;
     }
 
-    setIsPurchasing(true); // Indico que el proceso de compra ha comenzado.
+    setIsPurchasing(true);
     toast.info('Procesando tu compra...');
 
-    // Simulo un retardo para la animación de carga (como Mercado Libre).
     setTimeout(() => {
-      setIsPurchasing(false); // La compra ha terminado de procesarse.
-      setPurchaseCompleted(true); // Indico que la compra se ha completado.
-      vaciarCarrito(); // Vacío el carrito después de una compra exitosa (simulada).
-      toast.success('¡Compra realizada con éxito! Gracias por tu pedido.'); // Notifico el éxito.
-
-      // Podría añadir una pequeña demora antes de resetear el mensaje de completado
-      // si tuviera una animación más elaborada que quisiera que se viera un tiempo.
-      setTimeout(() => {
-        setPurchaseCompleted(false);
-      }, 3000); // Reseteo el estado después de 3 segundos para que se pueda volver a comprar.
-
-    }, 2000); // Simulo 2 segundos de procesamiento.
+      setIsPurchasing(false);
+      setPurchaseCompleted(true);
+      vaciarCarrito();
+      toast.success('¡Compra realizada con éxito! Gracias por tu pedido.');
+    }, 2000);
   };
 
 
-  // Si el carrito está vacío, muestro un mensaje.
-  if (carrito.length === 0 && !purchaseCompleted) { // Si no hay ítems Y no acabo de completar una compra.
+  if (purchaseCompleted) {
+    return (
+      <div className="container py-5 text-center">
+        <h2 className="mb-4">¡Compra Realizada con Éxito!</h2>
+        <p className="lead">Gracias por tu pedido. En breve recibirás un correo con los detalles de tu compra.</p>
+        <p className="mt-4">
+          <Link to="/productos" className="btn btn-dark btn-lg">Seguir comprando</Link>
+        </p>
+      </div>
+    );
+  }
+
+  if (carrito.length === 0 && !purchaseCompleted) {
     return <div className="container py-5"><h2>Tu carrito está vacío. ¡Explora nuestros productos!</h2></div>;
   }
 
@@ -73,14 +80,6 @@ function Cart() {
     <div className="container py-5">
       <h2>Tu Carrito de Compras</h2>
 
-      {/* Mensaje de compra completada */}
-      {purchaseCompleted && (
-        <div className="alert alert-success text-center my-4" role="alert">
-          ¡Tu compra ha sido procesada con éxito!
-        </div>
-      )}
-
-      {/* Animación de carga simulada */}
       {isPurchasing && (
         <div className="progress mb-3" style={{ height: '25px' }}>
           <div 
@@ -101,68 +100,67 @@ function Cart() {
         {carrito.map((item) => (
           <li 
             key={item.id} 
-            className="list-group-item d-flex justify-content-between align-items-center py-3" // Añadí py-3 para más espacio vertical
+            className="list-group-item d-flex justify-content-between align-items-center py-3"
           >
-            {/* NUEVO: Orden y espaciado de elementos */}
-            <div className="d-flex align-items-center flex-grow-1"> {/* flex-grow-1 para que ocupe el espacio disponible */}
-              <div className="d-flex align-items-center gap-2 me-4"> {/* me-4 para más espacio a la derecha del control de cantidad */}
-                <button 
-                  className="btn btn-outline-secondary btn-sm " // Hago los botones redondos
-                  onClick={() => disminuirCantidad(item.id)}
-                  disabled={isPurchasing} // Deshabilito durante la compra.
-                >
-                  -
-                </button>
-                <span className="fw-bold" style={{ minWidth: '20px', textAlign: 'center' }}>{item.cantidad}</span> {/* fw-bold para cantidad, minWidth para centrar */}
-                <button 
-                  className="btn btn-outline-secondary btn-sm" // Hago los botones redondos
-                  onClick={() => agregarAlCarrito(item)}
-                  disabled={isPurchasing} // Deshabilito durante la compra.
-                >
-                  +
-                </button>
+            <div className="d-flex align-items-center flex-grow-1">
+              <div className="d-flex align-items-center gap-2 me-4">
+                {/* Utilizo el componente QuantityControls para los botones de cantidad. */}
+                <QuantityControls
+                  quantity={item.cantidad}
+                  onIncrement={() => agregarAlCarrito(item)}
+                  onDecrement={() => disminuirCantidad(item.id)}
+                  disabled={isPurchasing} // Deshabilito si la compra está en proceso.
+                />
               </div>
-              <span className="fw-bold">{item.nombre}</span> {/* Nombre del producto más cerca de los controles */}
+              <span className="fw-bold">{item.nombre}</span>
             </div>
-            {/* Aplico formato de precio aquí. */}
-            <span className="fw-bold text-end" style={{ color: '#e4231f' }}>{formatPrice(parseFloat(item.precio) * item.cantidad)}</span> {/* Color de acento para el precio total del ítem */}
+            <span className="fw-bold text-end" style={{ color: '#e4231f' }}>{formatPrice(parseFloat(item.precio) * item.cantidad)}</span>
           </li>
         ))}
       </ul>
 
-      {/* Sección del Total de la Compra y Botones de Acción */}
-      {!isPurchasing && !purchaseCompleted && ( // Solo muestro esto si no estoy comprando ni he completado una compra.
-        <div className="d-flex justify-content-between align-items-center fw-bold fs-5 mb-4 p-3 border-top"> {/* mb-4 para espacio, p-3 para padding, border-top para línea */}
+      {!isPurchasing && (
+        <div className="d-flex justify-content-between align-items-center fw-bold fs-5 mb-4 p-3 border-top">
           <span>Total:</span>
-          <span style={{ color: '#e4231f' }}>{formatPrice(totalCompra)}</span> {/* Aplico formato al total */}
+          <span style={{ color: '#e4231f' }}>{formatPrice(totalCompra)}</span>
         </div>
       )}
 
-
-      {!isPurchasing && !purchaseCompleted && ( // Solo muestro los botones si no estoy comprando ni he completado una compra.
+      {!isPurchasing && (
         <div className="d-flex justify-content-between gap-3">
           <button 
-            className="btn btn-dark btn-lg w-100" // Botón gris oscuro grande
+            className="btn btn-dark btn-lg w-100"
             onClick={handleConfirmPurchase}
           >
             Confirmar Compra
           </button>
           <button 
-            className="btn btn-outline-secondary btn-lg w-100" // Botón delineado gris grande
-            onClick={handleVaciarCarrito}
+            className="btn btn-outline-secondary btn-lg w-100"
+            onClick={handleShowClearCartModal}
           >
             Vaciar Carrito
           </button>
         </div>
       )}
 
-      {/* Si el carrito se vació por una compra, muestro el mensaje de "gracias" */}
-      {carrito.length === 0 && purchaseCompleted && (
-        <div className="container py-5">
-          <p className="text-center lead">¡Gracias por tu compra! Tu pedido ha sido procesado.</p>
-          <p className="text-center"><Link to="/productos" className="btn btn-dark">Seguir comprando</Link></p>
-        </div>
-      )}
+      <Modal show={showClearCartModal} onHide={handleCloseClearCartModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Vaciado de Carrito</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>¿Estás seguro de que quieres eliminar todos los productos de tu carrito?</p>
+          <p className="fw-bold text-danger">Esta acción no se puede deshacer.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseClearCartModal}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={handleConfirmClearCart}>
+            Vaciar Carrito
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   );
 }

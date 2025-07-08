@@ -1,24 +1,24 @@
 import { useCart } from '../context/CartContext.jsx';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import QuantityControls from './common/QuantityControls.jsx'; // Importo mi nuevo componente de control de cantidad
 
 
-// Defino un componente StyledCard para aplicar estilos personalizados a mis tarjetas de producto.
+// Defino un componente StyledCard para aplicar estilos de hover y ajuste de imagen.
 const StyledCard = styled.div`
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
-  overflow: hidden; /* Muy importante para que el efecto de hover no se "salga" de la tarjeta. */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transición suave para la animación al pasar el ratón. */
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   
   &:hover {
-    transform: translateY(-5px); /* La tarjeta se eleva ligeramente al pasar el ratón. */
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Añade una sombra para dar profundidad. */
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   }
 
   .card-img-top {
-    height: 200px; /* Reduje la altura de la imagen para que la tarjeta sea más compacta. */
-    object-fit: cover; /* La imagen cubre todo el espacio sin deformarse. */
-    /* Para imágenes de sábanas que podrían parecer cortadas, esta opción suele ser un buen balance. */
+    height: 200px;
+    object-fit: cover;
   }
 
   .card-body {
@@ -27,35 +27,38 @@ const StyledCard = styled.div`
 
   .card-title {
     font-size: 1rem;
-    min-height: 3rem; /* Esto me asegura que los títulos de una o dos líneas no desplacen el diseño. */
+    min-height: 3rem;
   }
 
   .card-text {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #e4231f; /* CAMBIO: Color rojo de acento para el precio, como pedí. */
+    color: #e4231f; /* Color rojo de acento para el precio. */
   }
 
-  /* RE-DEFINICIÓN DE ESTILOS PARA LOS BOTONES DENTRO DE StyledCard */
-  .btn-primary, .btn-outline-primary {
-    background-color: #343a40; /* CAMBIO: Color gris oscuro para el fondo de los botones principales. */
-    border-color: #343a40; /* CAMBIO: Color del borde igual al fondo. */
-    color: white; /* Texto blanco en los botones. */
+  /* RE-DEFINICIÓN DE ESTILOS PARA LOS BOTONES PRINCIPALES DENTRO DE StyledCard */
+  .btn-primary { /* Este será el botón "Agregar al carrito" */
+    background-color: #343a40;
+    border-color: #343a40;
+    color: white;
 
     &:hover {
-      background-color: #555; /* CAMBIO: Un gris un poco más claro al pasar el ratón para el efecto hover. */
+      background-color: #555;
       border-color: #555;
     }
   }
 
-  .btn-outline-primary {
-    background-color: transparent; /* Fondo transparente para los botones delineados. */
-    color: #343a40; /* CAMBIO: Texto gris oscuro para los botones delineados. */
-    border-color: #343a40; /* CAMBIO: Borde gris oscuro. */
+  /* Los botones del control de cantidad (+/-) ahora son gestionados por StyledQuantityButton
+     dentro de QuantityControls, por lo que estas reglas ya no son tan críticas aquí
+     pero las mantengo por si alguna clase de Bootstrap se aplica. */
+  .btn-outline-primary { 
+    background-color: transparent;
+    color: #343a40;
+    border-color: #343a40;
 
     &:hover {
-      background-color: #343a40; /* CAMBIO: Fondo gris oscuro al pasar el ratón. */
-      color: white; /* Texto blanco al pasar el ratón. */
+      background-color: #343a40;
+      color: white;
     }
   }
 `;
@@ -76,7 +79,7 @@ function Item({ producto }) {
 
 
   return (
-    <div className="col-md-3 mb-4"> {/* CAMBIO: Uso col-md-3 para 4 tarjetas por fila, haciendo las tarjetas más chicas. */}
+    <div className="col-md-3 mb-4">
       <StyledCard className="card h-100">
         <Link to={`/producto/${producto.id}`}>
           <img 
@@ -96,28 +99,22 @@ function Item({ producto }) {
           </h5>
           <p className="card-text fw-bold">{formatPrice(producto.precio)}</p>
           
+          {/* Lógica de renderizado CONDICIONAL para el botón/control de cantidad */}
           {cantidadEnCarrito === 0 ? (
             <button 
-              className="btn btn-primary mt-auto" 
+              className="btn btn-primary mt-auto" // Mantengo btn-primary para el color que definí en StyledCard
               onClick={() => agregarAlCarrito(producto)}
             >
               Agregar al carrito
             </button>
           ) : (
-            <div className="d-flex align-items-center gap-2 mt-auto">
-              <button 
-                className="btn btn-outline-primary py-1" 
-                onClick={() => disminuirCantidad(producto.id)}
-              >
-                -
-              </button>
-              <span className="mx-2">{cantidadEnCarrito}</span>
-              <button 
-                className="btn btn-outline-primary py-1" 
-                onClick={() => agregarAlCarrito(producto)}
-              >
-                +
-              </button>
+            // Si ya hay ítems en el carrito, muestro el componente QuantityControls.
+            <div className="d-flex align-items-center mt-auto"> {/* mt-auto para alinear al final */}
+              <QuantityControls
+                quantity={cantidadEnCarrito}
+                onIncrement={() => agregarAlCarrito(producto)}
+                onDecrement={() => disminuirCantidad(producto.id)}
+              />
             </div>
           )}
         </div>

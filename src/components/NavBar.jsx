@@ -6,37 +6,41 @@ import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaBoxOpen, FaFire, FaAn
 import logoColchones from '../assets/LogoColchones.png';
 import styled from 'styled-components';
 
-// Defino un componente estilizado para el input de búsqueda.
+// Componentes estilizados existentes
 const StyledSearchInput = styled.input`
-  /* Estilos base del input, como el de Bootstrap */
   &:focus {
     border-color: #555;
     box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25);
   }
 `;
 
-// Defino un componente estilizado para el botón de búsqueda con los nuevos ajustes.
 const StyledSearchButton = styled.button`
-  background-color: #343a40; /* Mantengo el fondo gris oscuro. */
-  border-color: #343a40;     /* Mantengo el borde gris oscuro. */
-  color: white;             /* Mantengo el icono/texto blanco. */
-  
-  /* ESTILOS PARA INTEGRAR EL BOTÓN A LA BARRA DE BÚSQUEDA */
+  background-color: #343a40;
+  border-color: #343a40;
+  color: white;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
-
-  /* NUEVO: Hacer el botón más ancho */
-  width: 60px; /* Le doy un ancho fijo para que no quede tan chico. Puedes ajustar este valor. */
-  flex-shrink: 0; /* Aseguro que el botón no se encoja si el espacio es limitado. */
-
-  /* NUEVO: Elimino el cambio de color de fondo y borde en hover.
-     Ahora, solo el cursor indica interactividad, manteniendo el color estático. */
+  width: 60px;
+  flex-shrink: 0;
   &:hover {
-    background-color: #343a40; /* Mantengo el mismo color en hover. */
-    border-color: #343a40;     /* Mantengo el mismo color de borde en hover. */
+    background-color: #343a40;
+    border-color: #343a40;
   }
+`;
+
+// NUEVO COMPONENTE ESTILIZADO para el menú desplegable del usuario.
+// Esto me permite controlar la posición del menú.
+const StyledUserDropdownMenu = styled.ul`
+  /* Posicionamiento para que aparezca justo debajo del icono de usuario y por encima de otros elementos */
+  position: absolute; /* Aseguro que se posicione de forma absoluta respecto a su padre 'dropdown' */
+  top: 100% !important; /* Lo coloco justo debajo del elemento que lo dispara (100% de la altura del disparador) */
+  left: 50% !important; /* Muevo el inicio del menú al centro del disparador */
+  transform: translateX(-50%) !important; /* Lo muevo hacia la izquierda la mitad de su propio ancho para centrarlo */
+  min-width: 150px; /* Ancho mínimo para que el menú no sea demasiado chico */
+  z-index: 1050; /* Aumento el z-index para asegurar que esté por encima de otros elementos (ej: otros íconos, o badge del carrito) */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175); /* Añado una sombra sutil para destacarlo */
 `;
 
 
@@ -106,7 +110,7 @@ function NavBar() {
             <span className="text-dark fw-bold">Colchonera React</span>
           </Link>
 
-          {/* Barra de búsqueda - Ahora usa componentes estilizados */}
+          {/* Barra de búsqueda */}
           <form className="input-group w-50" onSubmit={handleSearch}>
             <StyledSearchInput
               type="text"
@@ -122,14 +126,36 @@ function NavBar() {
           </form>
 
           <div className="d-flex align-items-center">
-            {/* Icono Mi Cuenta */}
-            <Link className="nav-link text-dark me-3 d-flex flex-column align-items-center" to="/login">
-              <FaUserCircle size={24} />
-              <small>{usuario ? `Hola, ${usuario.nombre}` : 'Mi Cuenta'}</small>
-            </Link>
+            {/* Menú de usuario desplegable (Mi Cuenta/Perfil) */}
+            {usuario ? (
+              <div className="dropdown me-3 mt-2"> 
+                <Link
+                  className="nav-link text-dark d-flex flex-column align-items-center"
+                  to="#"
+                  id="userDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <FaUserCircle size={24} />
+                  <small>Hola, {usuario.nombre}</small>
+                </Link>
+                <StyledUserDropdownMenu className="dropdown-menu" aria-labelledby="userDropdown">
+                  <li><Link className="dropdown-item" to="/mis-compras">Mis Compras</Link></li>
+                  <li><Link className="dropdown-item" to="/datos-personales">Datos Personales</Link></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
+                </StyledUserDropdownMenu>
+              </div>
+            ) : (
+              <Link className="nav-link text-dark me-3 d-flex flex-column align-items-center mt-2" to="/login">
+                <FaUserCircle size={24} />
+                <small>Mi Cuenta</small>
+              </Link>
+            )}
 
             {/* Icono Carrito */}
-            <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative" to="/cart">
+            <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative mt-2" to="/cart"> 
               <FaShoppingCart size={24} />
               {totalItemsCarrito > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -143,7 +169,7 @@ function NavBar() {
         </div>
       </div>
 
-      {/* NAVBAR HORIZONTAL (Debajo del Header con enlaces y desplegables) */}
+      {/* NAVBAR HORIZONTAL */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-0">
         <div className="container">
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -178,13 +204,9 @@ function NavBar() {
                     {categoria.nombre} <FaAngleDown className="ms-1" />
                   </Link>
                   <ul className="dropdown-menu" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
-                    {/* Genera subcategorías con Link y parámetros de URL */}
                     {categoria.subcategorias.map((subcategoria, subIndex) => (
                       <li key={subIndex}>
-                        <Link
-                          className="dropdown-item"
-                          to={`/productos?categoria=${categoria.nombre.toLowerCase()}&subcategoria=${subcategoria.value}`}
-                        >
+                        <Link className="dropdown-item" to={`/productos?categoria=${categoria.nombre.toLowerCase()}&subcategoria=${subcategoria.value}`}>
                           {subcategoria.display}
                         </Link>
                       </li>
@@ -192,21 +214,6 @@ function NavBar() {
                   </ul>
                 </li>
               ))}
-
-              {/* Botones de Login/Logout existentes */}
-              {usuario ? (
-                <li className="nav-item">
-                  <button className="nav-link btn btn-link text-white py-3 px-4" onClick={handleLogout}>
-                    Logout
-                  </button>
-                </li>
-              ) : (
-                <li className="nav-item">
-                  <Link className="nav-link py-3 px-4" to="/login">
-                    Login
-                  </Link>
-                </li>
-              )}
             </ul>
           </div>
         </div>
