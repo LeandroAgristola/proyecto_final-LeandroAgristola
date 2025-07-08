@@ -1,10 +1,78 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import styled from 'styled-components';
+
+
+const StyledLoginForm = styled.div`
+  max-width: 500px;
+  margin: 50px auto 50px auto;
+  padding: 3rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  background-color: white;
+
+  h2 {
+    color: #343a40;
+    margin-bottom: 2rem;
+  }
+
+  .form-label {
+    color: #495057;
+  }
+
+  .form-control {
+    &:focus {
+      border-color: #555;
+      box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25);
+    }
+  }
+
+  .password-input-group {
+    position: relative;
+
+    .form-control {
+      padding-right: 55px;
+    }
+  }
+
+  .btn-primary {
+    background-color: #343a40;
+    border-color: #343a40;
+    color: white;
+    &:hover {
+      background-color: #555;
+      border-color: #555;
+    }
+  }
+
+  .password-toggle-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+
+    /* NUEVO INTENTO PARA CENTRADO VERTICAL: Uso Flexbox para el SPAN que contiene el ícono */
+    display: flex; /* Convierto el span en un contenedor flex. */
+    align-items: center; /* Alineo verticalmente el ícono dentro del span. */
+    height: 100%; /* Hago que el span ocupe toda la altura de su padre relativo para un cálculo de 50% más preciso. */
+
+
+    &:hover {
+      color: #343a40;
+    }
+  }
+`;
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
+  
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,8 +90,12 @@ function Login() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="container py-5" style={{ maxWidth: '500px' }}>
+    <StyledLoginForm className="container py-5">
       <h2 className="text-center mb-4">Iniciar Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
@@ -37,20 +109,25 @@ function Login() {
             required
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-3 password-input-group ">
           <label htmlFor="passwordInput" className="form-label">Contraseña</label>
-          <input
-            type="password"
-            className="form-control"
-            id="passwordInput"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="aling-items-center position-relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              className="form-control" id="passwordInput"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {/* Icono de ojo para mostrar/ocultar contraseña */}
+            <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
         </div>
-        <button type="submit" className="btn btn-primary w-100">Ingresar</button>
+        <button type="submit" className="btn btn-dark w-100">Ingresar</button>
       </form>
-    </div>
+    </StyledLoginForm>
   );
 }
 

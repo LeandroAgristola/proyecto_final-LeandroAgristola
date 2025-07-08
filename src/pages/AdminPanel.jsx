@@ -3,24 +3,46 @@ import { getProductos, deleteProducto } from '../services/api.js';
 import ProductForm from '../components/ProductForm.jsx';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; 
+import styled from 'styled-components'; // Importo styled para aplicar estilos personalizados
+
+// NUEVO: Componente estilizado para el select de categoría en el panel de administración
+const StyledAdminSelect = styled.select`
+  background-color: #343a40; /* Fondo gris oscuro, igual que el botón de búsqueda */
+  color: white; /* Texto blanco */
+  border: 1px solid #343a40; /* Borde gris oscuro */
+  border-radius: 0.25rem; /* Bordes redondeados */
+  padding: 0.375rem 2.25rem 0.375rem 0.75rem; /* Padding similar al de Bootstrap para selects */
+  -webkit-appearance: none; /* Eliminar estilos por defecto de navegador para consistencia */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); /* Flecha blanca personalizada */
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+
+  &:focus {
+    border-color: #555; /* Borde más claro en foco */
+    box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25); /* Sombra gris en foco */
+    outline: 0; /* Eliminar outline por defecto */
+  }
+
+  option {
+    background-color: #343a40; /* Asegurar que las opciones también sean oscuras */
+    color: white;
+  }
+`;
+
 
 function AdminPanel() {
-  // Mi estado para la lista completa de productos obtenida de la API.
   const [allProducts, setAllProducts] = useState([]);
-  // Mi estado para los productos que se muestran en la tabla, después de aplicar filtros.
   const [displayedProducts, setDisplayedProducts] = useState([]);
-  // Estado para indicar si los productos están cargando.
   const [cargando, setCargando] = useState(true);
-  // Estado para manejar cualquier error.
   const [error, setError] = useState(null);
-  // Estado que controla si estoy editando un producto (su ID) o agregando uno nuevo ('new').
   const [currentFormId, setCurrentFormId] = useState(null); 
-  // NUEVO: Estado para guardar la categoría seleccionada en el filtro de la tabla.
   const [selectedCategory, setSelectedCategory] = useState(''); 
 
-  const navigate = useNavigate(); // Nota: 'navigate' no se está usando en este componente actualmente.
+  const navigate = useNavigate();
 
-  // Defino las categorías disponibles, igual que en ProductForm y NavBar, para coherencia.
   const categoriasDisponibles = [
     { nombre: 'Colchones', value: 'Colchones' },
     { nombre: 'Almohadas', value: 'Almohadas' },
@@ -28,14 +50,12 @@ function AdminPanel() {
     { nombre: 'Respaldos', value: 'Respaldos' }
   ];
 
-
-  // Función asíncrona para obtener la lista de productos de la API.
   const fetchProductos = async () => {
     setCargando(true);
     setError(null);
     try {
       const res = await getProductos();
-      setAllProducts(res.data); // Guardo todos los productos obtenidos.
+      setAllProducts(res.data);
     } catch (err) {
       console.error("Error al cargar productos en AdminPanel:", err);
       setError('Error al cargar productos. Por favor, intenta de nuevo.');
@@ -45,32 +65,26 @@ function AdminPanel() {
     }
   };
 
-  // Efecto que se ejecuta una vez al montar para cargar todos los productos.
   useEffect(() => {
     fetchProductos();
   }, []);
 
-  // NUEVO Efecto: se ejecuta cuando cambia allProducts o selectedCategory para aplicar el filtro.
   useEffect(() => {
-    let filtered = [...allProducts]; // Empiezo con todos los productos.
-
-    // Si hay una categoría seleccionada, filtro los productos.
+    let filtered = [...allProducts];
     if (selectedCategory) {
       filtered = filtered.filter(producto => 
         producto.categoria === selectedCategory
       );
     }
-    setDisplayedProducts(filtered); // Actualizo los productos que se mostrarán en la tabla.
-  }, [allProducts, selectedCategory]); // Depende de la lista completa de productos y la categoría seleccionada.
+    setDisplayedProducts(filtered);
+  }, [allProducts, selectedCategory]);
 
-
-  // Manejador para la eliminación de un producto.
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de que quieres eliminar este producto? Esta acción es irreversible.')) {
       try {
         await deleteProducto(id);
         toast.success('Producto eliminado con éxito!'); 
-        fetchProductos(); // Vuelvo a cargar todos los productos después de eliminar.
+        fetchProductos();
       } catch (err) {
         console.error("Error al eliminar producto:", err);
         toast.error('Error al eliminar producto. Por favor, intenta de nuevo.'); 
@@ -78,30 +92,24 @@ function AdminPanel() {
     }
   };
 
-  // Manejador para iniciar la edición de un producto.
   const handleEdit = (id) => {
     setCurrentFormId(id);
   };
 
-  // Manejador para iniciar el modo de "agregar nuevo producto".
   const handleAddProduct = () => {
     setCurrentFormId('new'); 
   };
 
-  // Manejador que se llama cuando el ProductForm termina su operación.
   const handleFormSuccess = () => {
     setCurrentFormId(null); 
-    fetchProductos();       // Recargo todos los productos después de una operación exitosa.
+    fetchProductos();       
   };
 
-  // Manejador para cancelar la creación o edición de un producto.
   const handleCancelForm = () => {
     setCurrentFormId(null); 
     toast.info('Operación cancelada.'); 
   };
 
-
-  // --- Renderizado Condicional ---
   if (cargando) return <p className="text-center py-5">Cargando panel de administración...</p>;
   if (error) return <p className="text-danger text-center py-5">Error: {error}</p>;
 
@@ -110,19 +118,18 @@ function AdminPanel() {
       <h2 className="text-center my-4">Panel de Administración de Productos</h2>
 
       <div className="mb-4 d-flex justify-content-between align-items-center">
-        {/* Botón "Agregar Nuevo Producto" (solo visible si el formulario no está activo) */}
         {currentFormId === null && (
           <button className="btn btn-dark me-2" onClick={handleAddProduct}>
             Agregar Nuevo Producto
           </button>
         )}
-        {/* NUEVO: Select para filtrar por categoría */}
-        {currentFormId === null && ( // Solo muestro el filtro si no estoy editando/agregando
-          <div className="flex-grow-1 ms-3"> {/* flex-grow-1 para que el select ocupe espacio */}
+        {currentFormId === null && (
+          <div className="flex-grow-1 ms-3">
             <label htmlFor="categoryFilter" className="form-label visually-hidden">Filtrar por Categoría</label>
-            <select
+            {/* NUEVO: Uso mi componente StyledAdminSelect en lugar del select normal */}
+            <StyledAdminSelect
               id="categoryFilter"
-              className="form-select w-auto" // w-auto para que el ancho se ajuste al contenido
+              className="form-select w-auto" // Mantengo las clases de Bootstrap para su comportamiento responsivo
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
@@ -132,12 +139,11 @@ function AdminPanel() {
                   {cat.nombre}
                 </option>
               ))}
-            </select>
+            </StyledAdminSelect>
           </div>
         )}
-        {/* Botón "Cancelar" (solo visible si el formulario está activo) */}
         {currentFormId !== null && (
-          <button className="btn btn-secondary ms-auto" onClick={handleCancelForm}> {/* ms-auto para alinear a la derecha */}
+          <button className="btn btn-secondary ms-auto" onClick={handleCancelForm}>
             Cancelar
           </button>
         )}
@@ -153,7 +159,6 @@ function AdminPanel() {
         </div>
       )}
       
-      {/* La tabla ahora muestra los productos filtrados (displayedProducts) */}
       {(currentFormId === null && displayedProducts.length > 0) && (
         <div className="table-responsive">
           <table className="table table-striped table-hover">
@@ -167,7 +172,7 @@ function AdminPanel() {
               </tr>
             </thead>
             <tbody>
-              {displayedProducts.map(producto => ( // Mapeo displayedProducts
+              {displayedProducts.map(producto => (
                 <tr key={producto.id}>
                   <td>{producto.id}</td>
                   <td>{producto.nombre}</td>
@@ -194,7 +199,6 @@ function AdminPanel() {
         </div>
       )}
 
-      {/* Mensaje de "no hay productos" para la tabla, también basado en displayedProducts. */}
       {(displayedProducts.length === 0 && currentFormId === null && !cargando) && (
         <p className="text-center">No hay productos que coincidan con la categoría seleccionada. ¡Intenta con otra o agrega uno nuevo!</p>
       )}

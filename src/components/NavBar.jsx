@@ -6,7 +6,7 @@ import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaBoxOpen, FaFire, FaAn
 import logoColchones from '../assets/LogoColchones.png';
 import styled from 'styled-components';
 
-// Componentes estilizados existentes
+// Componentes estilizados existentes (sin cambios aquí)
 const StyledSearchInput = styled.input`
   &:focus {
     border-color: #555;
@@ -30,17 +30,17 @@ const StyledSearchButton = styled.button`
   }
 `;
 
-// NUEVO COMPONENTE ESTILIZADO para el menú desplegable del usuario.
-// Esto me permite controlar la posición del menú.
+// Componente estilizado para el menú desplegable del usuario.
 const StyledUserDropdownMenu = styled.ul`
-  /* Posicionamiento para que aparezca justo debajo del icono de usuario y por encima de otros elementos */
-  position: absolute; /* Aseguro que se posicione de forma absoluta respecto a su padre 'dropdown' */
-  top: 100% !important; /* Lo coloco justo debajo del elemento que lo dispara (100% de la altura del disparador) */
-  left: 50% !important; /* Muevo el inicio del menú al centro del disparador */
-  transform: translateX(-50%) !important; /* Lo muevo hacia la izquierda la mitad de su propio ancho para centrarlo */
-  min-width: 150px; /* Ancho mínimo para que el menú no sea demasiado chico */
-  z-index: 1050; /* Aumento el z-index para asegurar que esté por encima de otros elementos (ej: otros íconos, o badge del carrito) */
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175); /* Añado una sombra sutil para destacarlo */
+  position: absolute; 
+  top: 100% !important; 
+  left: 50% !important; 
+  transform: translateX(-50%) !important; 
+  min-width: 150px; 
+  z-index: 1050; 
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  margin-top: 5px; 
+
 `;
 
 
@@ -201,7 +201,7 @@ function NavBar() {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {categoria.nombre} <FaAngleDown className="ms-1" />
+                    {categoria.nombre}
                   </Link>
                   <ul className="dropdown-menu" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
                     {categoria.subcategorias.map((subcategoria, subIndex) => (

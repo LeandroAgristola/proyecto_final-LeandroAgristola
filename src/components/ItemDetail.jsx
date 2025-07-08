@@ -1,64 +1,35 @@
 import { useCart } from '../context/CartContext.jsx';
-import styled from 'styled-components'; // Importo styled para aplicar estilos personalizados a los botones de cantidad
+import styled from 'styled-components'; // Importo styled para aplicar estilos personalizados a los botones
+import QuantityControls from './common/QuantityControls.jsx'; // Asegúrate de que esta importación sea correcta si lo moviste
 
-// Defino un componente estilizado para los botones de cantidad (+/-)
-// Ahora con un diseño más integrado y uniforme.
-const StyledQuantityButton = styled.button`
-  width: 32px;
-  height: 32px;
+
+const StyledAddToCartButton = styled.button`
+  /* Propiedades de tamaño y alineación para que coincida con QuantityControls */
+  height: 34px; /* Ajustado para que su altura sea similar a la de QuantityControls */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 0.25rem; /* Esquinas ligeramente redondeadas */
-  background-color: transparent; /* Fondo transparente */
-  color: #343a40; /* Color gris oscuro para el texto/icono */
-  border: 1px solid #343a40; /* Borde gris oscuro */
+  padding: 0.375rem 1rem; /* Padding para que el texto se vea bien */
+  font-size: 1rem; /* Tamaño de fuente estándar */
+  line-height: 1.5; /* Altura de línea para centrar el texto verticalmente */
+
+  /* Colores y bordes que ya hemos definido para los botones principales (gris oscuro) */
+  background-color: #343a40;
+  border-color: #343a40;
+  color: white;
+  border-radius: 0.25rem; /* Bordes redondeados estándar */
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Transición suave para hover */
 
   &:hover {
-    background-color: #343a40; /* Fondo gris oscuro en hover */
-    color: white; /* Texto blanco en hover */
-  }
-`;
-
-// Defino un contenedor estilizado para agrupar los botones y la cantidad,
-// dándoles una apariencia unificada.
-const StyledQuantityControl = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px solid #343a40; /* Borde alrededor de todo el control de cantidad */
-  border-radius: 0.25rem;
-  overflow: hidden; /* Aseguro que los bordes internos no sobresalgan */
-
-  ${StyledQuantityButton} {
-    border: none; /* Los botones internos no necesitan borde propio ya que el contenedor lo tiene */
-    border-radius: 0; /* Elimino el redondeo individual para que se integren */
-  }
-
-  span {
-    padding: 0 10px; /* Espacio alrededor del número de cantidad */
-    min-width: 40px; /* Ancho mínimo para el número */
-    text-align: center;
-    font-weight: bold;
-    color: #343a40; /* Color del texto de la cantidad */
-  }
-
-  /* Si el botón + o - está deshabilitado, el cursor no debe cambiar */
-  ${StyledQuantityButton}:disabled {
-    cursor: not-allowed;
-    opacity: 0.6; /* Hago que los botones deshabilitados sean un poco transparentes */
+    background-color: #555;
+    border-color: #555;
   }
 `;
 
 
 function ItemDetail({ producto }) {
-  const { agregarAlCarrito, disminuirCantidad, carrito } = useCart(); // Obtengo carrito para calcular cantidadEnCarrito
-
-  // Calculo la cantidad de este producto en el carrito.
+  const { agregarAlCarrito, disminuirCantidad, carrito } = useCart();
   const cantidadEnCarrito = carrito.find(item => item.id === producto.id)?.cantidad || 0;
-
 
   const formatPrice = (price) => {
     const numericPrice = parseFloat(price);
@@ -95,24 +66,17 @@ function ItemDetail({ producto }) {
           
           {/* Lógica de renderizado CONDICIONAL para el botón/control de cantidad */}
           {cantidadEnCarrito === 0 ? (
-            <button
-              className="btn btn-dark btn-lg mt-3" // Uso btn-dark como color principal para los botones
-              onClick={() => agregarAlCarrito(producto)}
-            >
+            <StyledAddToCartButton className="mt-3" onClick={() => agregarAlCarrito(producto)}>
               Agregar al carrito
-            </button>
+            </StyledAddToCartButton>
           ) : (
-            // Si ya hay ítems en el carrito, muestro el control de cantidad integrado.
+            // El control de cantidad ya tiene mt-3, así que su posición se mantendrá.
             <div className="d-flex align-items-center mt-3">
-              <StyledQuantityControl>
-                <StyledQuantityButton onClick={() => disminuirCantidad(producto.id)}>-</StyledQuantityButton>
-                <span>{cantidadEnCarrito}</span>
-                <StyledQuantityButton onClick={() => agregarAlCarrito(producto)}>+</StyledQuantityButton>
-              </StyledQuantityControl>
-              {/* Opcional: Podríamos añadir un botón "Agregar más" al lado si se quiere una acción más explícita */}
-              {/* <button className="btn btn-outline-dark ms-2" onClick={() => agregarAlCarrito(producto)}>
-                Agregar otro
-              </button> */}
+              <QuantityControls
+                quantity={cantidadEnCarrito}
+                onIncrement={() => agregarAlCarrito(producto)}
+                onDecrement={() => disminuirCantidad(producto.id)}
+              />
             </div>
           )}
         </div>
