@@ -117,17 +117,13 @@ npm install --legacy-peer-deps
 ### 3. Configuración de la API (MockAPI)
 Asegúrate de que la baseURL en `src/services/api.js` apunte a tu MockAPI configurado.
 
-Este proyecto utiliza:
-
-`https://6812a437129f6313e20f2315.mockapi.io`
+Este proyecto utiliza: `https://6812a437129f6313e20f2315.mockapi.io`
 
 ### 4. Ejecución del Proyecto
 ```bash
 npm run dev
 ```
-
-# Esto abrirá la aplicación en tu navegador predeterminado, usualmente en:
-`http://localhost:5173`
+** Esto abrirá la aplicación en tu navegador predeterminado, usualmente en:** `http://localhost:5173`
 
 ### ⚙️ Auditorías y Optimización (Recomendaciones)
 ## ✔️ Auditorías con Lighthouse
