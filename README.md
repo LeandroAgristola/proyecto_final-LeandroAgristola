@@ -102,8 +102,6 @@ npm install
 **si encuentras errores de peerDependencies con react-helmet-async:**
 
 ```bash
-Copiar
-Editar
 npm install --force
 ```
 
@@ -123,9 +121,11 @@ Este proyecto utiliza: `https://6812a437129f6313e20f2315.mockapi.io`
 ```bash
 npm run dev
 ```
-** Esto abrirá la aplicación en tu navegador predeterminado, usualmente en:** `http://localhost:5173`
+** Esto abrirá la aplicación en tu navegador predeterminado, usualmente en:** 
+`http://localhost:5173`
 
 ### ⚙️ Auditorías y Optimización (Recomendaciones)
+
 ## ✔️ Auditorías con Lighthouse
 
 Abre la app en tu navegador (http://localhost:5173)
@@ -147,11 +147,11 @@ Aplica code splitting para rutas secundarias
 
 ## 📞 Contacto
 
-Nombre: Leandro Agristola
+**Nombre:** Leandro Agristola
 
-Email: leandro.agristola@gmail.com
+**Email:** leandro.agristola@gmail.com
 
-GitHub: LeandroAgristola
+**GitHub:** LeandroAgristola
 
 ## 📄 Licencia
 Este proyecto está licenciado bajo la Licencia MIT.
