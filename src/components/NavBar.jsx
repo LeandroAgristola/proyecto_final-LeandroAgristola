@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'; 
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaTimes, FaBoxOpen, FaFire } from 'react-icons/fa';
 import logoColchones from '../assets/LogoColchones.png';
 import styled from 'styled-components';
-import { Collapse } from 'bootstrap'; 
+import { Collapse } from 'bootstrap';
 
 const StyledSearchInput = styled.input`
   &:focus {
@@ -38,6 +38,7 @@ const StyledUserDropdownMenu = styled.ul`
   min-width: 150px;
   z-index: 1050;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  /* margin-top: 5px; // REMOVED THIS LINE */
   background-color: #495057 !important;
   display: none; /* Hidden by default, controlled by React state/class */
 
@@ -89,7 +90,6 @@ const StyledCategoryDropdownMenu = styled.ul`
   }
 `;
 
-// NEW Styled Component for Mobile Navbar Collapse
 const StyledMobileCollapse = styled.div`
   @media (max-width: 991.98px) { /* Applies only on mobile and tablets */
     position: fixed;
@@ -171,13 +171,11 @@ function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mobileHeaderHeight, setMobileHeaderHeight] = useState(0);
 
-  // New states for controlling dropdowns directly in React
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-  const [openCategoryDropdown, setOpenCategoryDropdown] = useState(null); // Stores the name of the currently open category dropdown
-
+  const [openCategoryDropdown, setOpenCategoryDropdown] = useState(null); 
   const navbarCollapseRef = useRef(null);
   const bsCollapseInstance = useRef(null);
-  const userDropdownRef = useRef(null); // NEW: Ref for the user dropdown container
+  const userDropdownRef = useRef(null); 
 
   const categorias = [
     {
@@ -219,7 +217,7 @@ function NavBar() {
   const handleLogout = () => {
     logout();
     navigate('/');
-    setIsUserDropdownOpen(false); // Close user dropdown on logout
+    setIsUserDropdownOpen(false); 
   };
 
   const totalItemsCarrito = carrito.reduce((total, item) => total + item.cantidad, 0);
@@ -228,12 +226,11 @@ function NavBar() {
     e.preventDefault();
     navigate(`/productos?busqueda=${searchTerm}`);
     if (bsCollapseInstance.current) {
-        bsCollapseInstance.current.hide(); // Close main menu
+        bsCollapseInstance.current.hide(); 
     }
-    setIsMenuOpen(false); // Sync state
+    setIsMenuOpen(false); 
   };
 
-  // Main menu toggle function (now controls Bootstrap instance directly)
   const handleToggle = () => {
     if (bsCollapseInstance.current) {
       if (isMenuOpen) {
@@ -242,42 +239,36 @@ function NavBar() {
         bsCollapseInstance.current.show();
       }
     }
-    // setIsMenuOpen will be updated by Bootstrap's 'shown.bs.collapse'/'hidden.bs.collapse' events
   };
 
-  // Function to handle closing the main menu when a navigable link is clicked
   const handleLinkClick = () => {
     if (bsCollapseInstance.current) {
-      bsCollapseInstance.current.hide(); // Close main menu
+      bsCollapseInstance.current.hide(); 
     }
-    setIsMenuOpen(false); // Sync state
-    setIsUserDropdownOpen(false); // Close any open user dropdown
-    setOpenCategoryDropdown(null); // Close any open category dropdown
+    setIsMenuOpen(false); 
+    setIsUserDropdownOpen(false);
+    setOpenCategoryDropdown(null); 
   };
 
-  // Handle category dropdown toggle
+
   const handleCategoryDropdownToggle = (categoryName) => {
     if (openCategoryDropdown === categoryName) {
-      setOpenCategoryDropdown(null); // Close if already open
+      setOpenCategoryDropdown(null); 
     } else {
-      setOpenCategoryDropdown(categoryName); // Open this one
+      setOpenCategoryDropdown(categoryName); 
     }
-    // Close user dropdown if a category dropdown is opened
-    if (isUserDropdownOpen) { // NEW: Close user dropdown if it's open when category dropdown is toggled
+    if (isUserDropdownOpen) {
         setIsUserDropdownOpen(false);
     }
   };
 
-  // Handle user dropdown toggle
   const handleUserDropdownToggle = () => {
     setIsUserDropdownOpen(!isUserDropdownOpen);
-    // Close any open category dropdown when user dropdown is toggled
-    if (openCategoryDropdown) { // NEW: Close category dropdown if it's open when user dropdown is toggled
+    if (openCategoryDropdown) {
         setOpenCategoryDropdown(null);
     }
   };
 
-  // Effect to measure mobile header height
   useEffect(() => {
     const mobileHeader = document.getElementById('mobile-header');
     if (mobileHeader) {
@@ -285,19 +276,17 @@ function NavBar() {
     }
   }, [isMenuOpen]);
 
-  // Set CSS variable for StyledMobileCollapse
   useEffect(() => {
     document.documentElement.style.setProperty('--mobile-navbar-total-height', `${mobileHeaderHeight}px`);
   }, [mobileHeaderHeight]);
 
-  // Bug fix: Block scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.height = '100vh'; // Crucial for full scroll blocking on mobile
+      document.body.style.height = '100vh'; 
     } else {
       document.body.style.overflow = '';
-      document.body.style.height = ''; // Reset height
+      document.body.style.height = ''; 
     }
     return () => {
       document.body.style.overflow = '';
@@ -305,13 +294,11 @@ function NavBar() {
     };
   }, [isMenuOpen]);
 
-  // Effect to initialize Bootstrap Collapse and listen for its events
   useEffect(() => {
     if (navbarCollapseRef.current) {
-      // Ensure only one instance is created
       if (!bsCollapseInstance.current) {
           bsCollapseInstance.current = new Collapse(navbarCollapseRef.current, {
-            toggle: false // Important: prevent auto-toggling on init
+            toggle: false
           });
       }
 
@@ -319,22 +306,18 @@ function NavBar() {
 
       const handleShown = () => {
         setIsMenuOpen(true);
-        // Close any open dropdowns when the main menu opens
         setIsUserDropdownOpen(false);
         setOpenCategoryDropdown(null);
       };
       const handleHidden = () => {
         setIsMenuOpen(false);
-        // Also close any open dropdowns when the main menu closes
         setIsUserDropdownOpen(false);
         setOpenCategoryDropdown(null);
       };
 
-      // Add event listeners for Bootstrap's collapse events
       collapseElement.addEventListener('shown.bs.collapse', handleShown);
       collapseElement.addEventListener('hidden.bs.collapse', handleHidden);
 
-      // Cleanup event listeners and dispose Bootstrap instance on unmount
       return () => {
         collapseElement.removeEventListener('shown.bs.collapse', handleShown);
         collapseElement.removeEventListener('hidden.bs.collapse', handleHidden);
@@ -344,42 +327,33 @@ function NavBar() {
         }
       };
     }
-  }, []); // Empty dependency array means this runs once on mount
+  }, []); 
 
-  // NEW: Effect to close user dropdown on outside click
   useEffect(() => {
       const handleClickOutside = (event) => {
-          // Check if user dropdown is open AND click is outside its ref AND not on main menu toggler (to avoid immediate re-close)
-          // Also, ensure the click target is not part of another active dropdown, as that's handled by specific toggles
+
           if (userDropdownRef.current && !userDropdownRef.current.contains(event.target) && isUserDropdownOpen) {
-              // Ensure the click wasn't on a category dropdown toggle itself, which should open its own menu
               const clickedOnCategoryToggle = event.target.closest('.nav-item.dropdown button.dropdown-toggle');
-              if (!clickedOnCategoryToggle || !clickedOnCategoryToggle.id.includes('navbarDropdown')) { // Check if it's a category toggle
+              if (!clickedOnCategoryToggle || !clickedOnCategoryToggle.id.includes('navbarDropdown')) {
                 setIsUserDropdownOpen(false);
               }
           }
       };
 
-      // Add event listener to the document
-      document.addEventListener('mousedown', handleClickOutside); // Using mousedown for consistency with browser dropdowns
+      document.addEventListener('mousedown', handleClickOutside);
 
       return () => {
           document.removeEventListener('mousedown', handleClickOutside);
       };
-  }, [isUserDropdownOpen, openCategoryDropdown]); // Re-run effect if dropdown open states change
+  }, [isUserDropdownOpen, openCategoryDropdown]);
 
 
-  // NEW: Effect to close category dropdown on outside click
   useEffect(() => {
     const handleClickOutsideCategory = (event) => {
-      // Check if any category dropdown is open AND click is outside its ref (if we had specific refs for each category)
-      // For now, if openCategoryDropdown is set, it means one is open.
-      // If the click is outside the main navbar collapse and outside the user dropdown, close category dropdowns.
       if (openCategoryDropdown &&
           (!navbarCollapseRef.current || !navbarCollapseRef.current.contains(event.target)) &&
           (!userDropdownRef.current || !userDropdownRef.current.contains(event.target))
       ) {
-        // Ensure the click wasn't on the user dropdown toggle itself
         const clickedOnUserToggle = event.target.closest('#userDropdownNavLink');
         if (!clickedOnUserToggle) {
           setOpenCategoryDropdown(null);
@@ -391,12 +365,11 @@ function NavBar() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutsideCategory);
     };
-  }, [openCategoryDropdown, isMenuOpen, isUserDropdownOpen]); // Depend on relevant states
+  }, [openCategoryDropdown, isMenuOpen, isUserDropdownOpen]);
 
 
   return (
     <>
-      {/* HEADER (Parte superior con logo, búsqueda, mi cuenta, carrito) - Desktop */}
       <div className="bg-light py-2 border-bottom d-none d-lg-block">
         <div className="container d-flex justify-content-between align-items-center">
           <Link className="navbar-brand d-flex align-items-center" to="/">
@@ -418,7 +391,7 @@ function NavBar() {
             </StyledSearchButton>
           </form>
 
-          <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative mt-2" to="/cart">
+          <Link className="nav-link text-dark d-flex flex-column align-items-center position-relative mt-2" to="/cart" aria-label="Ver carrito de compras">
             <FaShoppingCart size={24} />
             {totalItemsCarrito > 0 && (
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -431,10 +404,8 @@ function NavBar() {
         </div>
       </div>
 
-      {/* HEADER - Mobile (d-lg-none) */}
       <div id="mobile-header" className="bg-light py-2 border-bottom d-block d-lg-none">
         <div className="container">
-          {/* Row 1: Logo (centered) */}
           <div className="d-flex justify-content-center py-2">
             <Link className="navbar-brand d-flex align-items-center" to="/">
               <img src={logoColchones} alt="Logo Colchonera" style={{ height: '40px', marginRight: '10px' }} />
@@ -442,38 +413,35 @@ function NavBar() {
             </Link>
           </div>
 
-          {/* New Row 2: Hamburger | Search | Cart (centered group) */}
-          <div className="d-flex justify-content-around align-items-center py-2"> {/* justify-content-around for spacing */}
-            {/* Hamburger Button */}
+          <div className="d-flex justify-content-around align-items-center py-2"> 
             <button
               className="navbar-toggler"
               type="button"
               data-bs-target="#navbarNav"
               aria-controls="navbarNav"
               aria-expanded={isMenuOpen}
-              onClick={handleToggle} // Only onClick, no data-bs-toggle here
+              onClick={handleToggle}
               style={{ border: 'none', backgroundColor: 'transparent' }}
+              aria-label={isMenuOpen ? "Cerrar menú principal" : "Abrir menú principal"}
             >
               {isMenuOpen ? <FaTimes size={24} color="#343a40" /> : <FaBars size={24} color="#343a40" />}
             </button>
 
-            {/* Search Form */}
-            <form className="input-group w-75 mx-3" onSubmit={handleSearch}> {/* w-75 to limit width, mx-3 for spacing */}
+            <form className="input-group w-75 mx-3" onSubmit={handleSearch} role="search">
               <StyledSearchInput
                 type="text"
                 className="form-control"
-                placeholder="Buscar..."
+                placeholder="Buscar productos por nombre o descripción..."
                 aria-label="Buscar productos"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <StyledSearchButton className='btn btn-dark' type="submit">
+              <StyledSearchButton className='btn btn-dark' type="submit" aria-label="Buscar">
                 <FaSearch />
               </StyledSearchButton>
             </form>
 
-            {/* Cart Icon (Moved back to header) */}
-            <Link className="nav-link text-dark d-flex align-items-center position-relative" to="/cart" onClick={handleLinkClick}>
+            <Link className="nav-link text-dark d-flex align-items-center position-relative" to="/cart" onClick={handleLinkClick} aria-label="Ver carrito de compras">
               <FaShoppingCart size={24} />
               {totalItemsCarrito > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -486,41 +454,71 @@ function NavBar() {
         </div>
       </div>
 
-      {/* NAVBAR HORIZONTAL */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-0">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-0" role="navigation">
         <div className="container">
           <StyledMobileCollapse className="collapse navbar-collapse" id="navbarNav" ref={navbarCollapseRef}>
-            <ul className="navbar-nav w-100 justify-content-between">
-              <li className="nav-item">
-                <Link className="nav-link py-3 px-4" to="/ofertas" onClick={handleLinkClick}>
+            <ul className="navbar-nav w-100 justify-content-between" role="menu">
+              <li className="nav-item dropdown" key="user-menu" ref={userDropdownRef} role="none">
+                  {usuario ? (
+                      <button
+                          className="nav-link dropdown-toggle py-3 px-4"
+                          id="userDropdownNavLink"
+                          type="button"
+                          aria-expanded={isUserDropdownOpen}
+                          onClick={handleUserDropdownToggle}
+                          aria-haspopup="true"
+                          aria-controls="user-menu-options" 
+                          aria-label={`Hola, ${usuario.nombre}. Opciones de usuario`} 
+                      >
+                          <FaUserCircle className="me-2" />Hola, {usuario.nombre}
+                      </button>
+                  ) : (
+                      <Link className="nav-link py-3 px-4" to="/login" onClick={handleLinkClick} role="menuitem" aria-label="Iniciar sesión en tu cuenta">
+                          <FaUserCircle className="me-2" />Mi Cuenta
+                      </Link>
+                  )}
+                  {isUserDropdownOpen && (
+                      <StyledUserDropdownMenu className="dropdown-menu open" aria-labelledby="userDropdownNavLink" role="menu" id="user-menu-options"> {/* Added role="menu" and id */}
+                          <li role="none"><Link className="dropdown-item" to="/mis-compras" onClick={handleLinkClick} role="menuitem">Mis Compras</Link></li>
+                          <li role="none"><Link className="dropdown-item" to="/datos-personales" onClick={handleLinkClick} role="menuitem">Datos Personales</Link></li>
+                          <li role="none"><hr className="dropdown-divider" /></li>
+                          <li role="none"><button className="dropdown-item" onClick={handleLogout} role="menuitem">Cerrar Sesión</button></li>
+                      </StyledUserDropdownMenu>
+                  )}
+              </li>
+
+              <li className="nav-item" role="none">
+                <Link className="nav-link py-3 px-4" to="/ofertas" onClick={handleLinkClick} role="menuitem" aria-label="Ver todas las ofertas">
                   <FaFire className="me-2" />
                   Ofertas
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link py-3 px-4" to="/mas-vendidos" onClick={handleLinkClick}>
+              <li className="nav-item" role="none">
+                <Link className="nav-link py-3 px-4" to="/mas-vendidos" onClick={handleLinkClick} role="menuitem" aria-label="Ver productos más vendidos">
                   <FaBoxOpen className="me-2" />
                   Más Vendidos
                 </Link>
               </li>
 
               {categorias.map((categoria, index) => (
-                <li className="nav-item dropdown" key={index}>
-                  <button // Changed to button for category dropdown toggles, no data-bs-toggle
+                <li className="nav-item dropdown" key={index} role="none">
+                  <button
                     className="nav-link dropdown-toggle py-3 px-4"
                     id={`navbarDropdown${categoria.nombre}`}
                     type="button"
                     aria-expanded={openCategoryDropdown === categoria.nombre}
                     onClick={() => handleCategoryDropdownToggle(categoria.nombre)}
+                    aria-haspopup="true"
+                    aria-controls={`category-menu-options-${categoria.nombre}`} 
+                    aria-label={`Categoría ${categoria.nombre}. Desplegar subcategorías`} 
                   >
                     {categoria.nombre}
                   </button>
-                  {/* Conditionally render based on React state */}
                   {openCategoryDropdown === categoria.nombre && (
-                    <StyledCategoryDropdownMenu className="dropdown-menu open" aria-labelledby={`navbarDropdown${categoria.nombre}`}>
+                    <StyledCategoryDropdownMenu className="dropdown-menu open" aria-labelledby={`navbarDropdown${categoria.nombre}`} role="menu" id={`category-menu-options-${categoria.nombre}`}> {/* Added role="menu" and id */}
                       {categoria.subcategorias.map((subcategoria, subIndex) => (
-                        <li key={subIndex}>
-                          <Link className="dropdown-item" to={`/productos?categoria=${categoria.nombre.toLowerCase()}&subcategoria=${subcategoria.value}`} onClick={handleLinkClick}>
+                        <li key={subIndex} role="none">
+                          <Link className="dropdown-item" to={`/productos?categoria=${categoria.nombre.toLowerCase()}&subcategoria=${subcategoria.value}`} onClick={handleLinkClick} role="menuitem">
                             {subcategoria.display}
                           </Link>
                         </li>
@@ -529,31 +527,6 @@ function NavBar() {
                   )}
                 </li>
               ))}
-              <li className="nav-item dropdown" key="user-menu" ref={userDropdownRef}>
-                  {usuario ? (
-                      <button 
-                          className="nav-link dropdown-toggle py-3 px-4"
-                          id="userDropdownNavLink"
-                          type="button"
-                          aria-expanded={isUserDropdownOpen}
-                          onClick={handleUserDropdownToggle}
-                      >
-                          <FaUserCircle className="me-2" />Hola, {usuario.nombre}
-                      </button>
-                  ) : (
-                      <Link className="nav-link py-3 px-4" to="/login" onClick={handleLinkClick}>
-                          <FaUserCircle className="me-2" />Mi Cuenta
-                      </Link>
-                  )}
-                  {isUserDropdownOpen && ( // Conditionally render
-                      <StyledUserDropdownMenu className="dropdown-menu open" aria-labelledby="userDropdownNavLink">
-                          <li><Link className="dropdown-item" to="/mis-compras" onClick={handleLinkClick}>Mis Compras</Link></li>
-                          <li><Link className="dropdown-item" to="/datos-personales" onClick={handleLinkClick}>Datos Personales</Link></li>
-                          <li><hr className="dropdown-divider" /></li>
-                          <li><button className="dropdown-item" onClick={handleLogout}>Cerrar Sesión</button></li>
-                      </StyledUserDropdownMenu>
-                  )}
-              </li>
             </ul>
           </StyledMobileCollapse>
         </div>

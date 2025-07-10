@@ -9,14 +9,19 @@ import Cart from './components/Cart.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import ProductoDetalle from './pages/ProductoDetalle.jsx';
 import AdminPanel from './pages/AdminPanel.jsx';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import OfertasPage from './pages/OfertasPage.jsx';
 import MasVendidosPage from './pages/MasVendidosPage.jsx';
+import { Helmet } from 'react-helmet-async'; 
 
 function App() {
   return (
     <>
+      <Helmet>
+        <title>Colchonera React - Descansa Mejor</title>
+        <meta name="description" content="Tu tienda online de colchones, almohadas y sábanas para un descanso perfecto." />
+        <meta name="keywords" content="colchones, almohadas, sábanas, descanso, dormir, tienda online, colchonería" />
+        <meta name="author" content="Leandro Agristola" />
+      </Helmet>
       <NavBar />
       <main style={{ minHeight: 'calc(50vh - 100px)' }}>
         <Routes>
@@ -24,11 +29,8 @@ function App() {
           <Route path="/productos" element={<Productos />} />
           <Route path="/producto/:id" element={<ProductoDetalle />} />
           <Route path="/login" element={<Login />} />
-          {/* NUEVAS RUTAS PARA OFERTAS Y MÁS VENDIDOS */}
           <Route path="/ofertas" element={<OfertasPage />} />
           <Route path="/mas-vendidos" element={<MasVendidosPage />} />
-
-          {/* Ruta protegida para el carrito */}
           <Route
             path="/cart"
             element={
@@ -37,7 +39,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* RUTA PROTEGIDA PARA EL PANEL DE ADMINISTRACIÓN (usando tu ProtectedRoute original) */}
           <Route
             path="/admin"
             element={
@@ -46,23 +47,11 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* Rutas para "Mis Compras" y "Datos Personales" (sin componente funcional por ahora) */}
           <Route path="/mis-compras" element={<div className="container py-5"><h2>Mis Compras (En construcción)</h2><p>Aquí se mostrará tu historial de compras.</p></div>} />
           <Route path="/datos-personales" element={<div className="container py-5"><h2>Datos Personales (En construcción)</h2><p>Aquí podrás ver y editar tus datos de perfil.</p></div>} />
         </Routes>
       </main>
       <Footer />
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 }
