@@ -20,11 +20,11 @@ import {
   FaEnvelope,
   FaMapMarkerAlt
 } from 'react-icons/fa';
-// import logoColchones from '../assets/LogoColchones.png'; // No se usa directamente aquí, el logo del footer es texto
+
 
 function Footer() {
   return (
-    <footer className="bg-dark text-white pt-5 pb-3"> {/* pt-5 para padding superior, pb-3 para padding inferior */}
+    <footer className="bg-dark text-white pt-5 pb-3"> 
       <div className="container">
         <div className="row">
           {/* Columna 1: Información de la empresa */}
@@ -70,15 +70,14 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Columna 4: Logo, Redes Sociales y Medios de Pago */}
-          <div className="col-md-3 mb-4 text-center text-md-start"> {/* text-center en móviles, text-md-start en desktop */}
+          <div className="col-md-3 mb-4 text-center text-md-start"> 
             <Link className="d-flex align-items-center justify-content-center justify-content-md-start mb-3 text-decoration-none" to="/">
               <span className="text-white fw-bold fs-5">Colchonera React</span>
             </Link>
 
             <div className="mb-3">
               <h6 className="text-white mb-2">Síguenos:</h6>
-              <div className="d-flex justify-content-center justify-content-md-start gap-3"> {/* gap-3 para espacio entre iconos */}
+              <div className="d-flex justify-content-center justify-content-md-start gap-2">
                 <a href="#" className="text-white"><FaFacebook size={24} /></a>
                 <a href="#" className="text-white"><FaTwitter size={24} /></a>
                 <a href="#" className="text-white"><FaYoutube size={24} /></a>
@@ -90,7 +89,7 @@ function Footer() {
 
             <div>
               <h6 className="text-white mb-2">Métodos de Pago:</h6>
-              <div className="d-flex flex-wrap justify-content-center justify-content-md-start gap-2"> {/* flex-wrap y gap para logos de pago */}
+              <div className="d-flex flex-wrap justify-content-center justify-content-md-start gap-1">
                 <img src={LogoVisa} alt="Visa" style={{ height: '30px' }} className="me-2" />
                 <img src={LogoMaster} alt="Mastercard" style={{ height: '30px' }} className="me-2" />
                 <img src={LogoMP} alt="Mercado Pago" style={{ height: '30px' }} />
@@ -101,11 +100,11 @@ function Footer() {
         </div>
         <hr className="bg-secondary" /> {/* Línea divisoria */}
         <div className="text-center py-2">
-          <small>&copy; {new Date().getFullYear()} Colchonera React - Todos los derechos reservados</small>
+          <small>© {new Date().getFullYear()} Colchonera React - Todos los derechos reservados</small>
         </div>
       </div>
       {/* Boton de whatsapp */}
-      <a href="https://api.whatsapp.com/send?phone=+5491187654321" // Hardcoded for example, use config if available
+      <a href="https://api.whatsapp.com/send?phone=+5491187654321"
         className="whatsapp-float"
         target="_blank"
         aria-label="Chatea con nosotros por WhatsApp">

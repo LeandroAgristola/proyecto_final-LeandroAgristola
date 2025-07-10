@@ -3,9 +3,8 @@ import { getProductos, deleteProducto } from '../services/api.js';
 import ProductForm from '../components/ProductForm.jsx';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; 
-import styled from 'styled-components'; // Importo styled para aplicar estilos personalizados
+import styled from 'styled-components'; 
 
-// NUEVO: Componente estilizado para el select de categoría en el panel de administración
 const StyledAdminSelect = styled.select`
   background-color: #343a40; /* Fondo gris oscuro, igual que el botón de búsqueda */
   color: white; /* Texto blanco */
@@ -126,10 +125,9 @@ function AdminPanel() {
         {currentFormId === null && (
           <div className="flex-grow-1 ms-3">
             <label htmlFor="categoryFilter" className="form-label visually-hidden">Filtrar por Categoría</label>
-            {/* NUEVO: Uso mi componente StyledAdminSelect en lugar del select normal */}
             <StyledAdminSelect
               id="categoryFilter"
-              className="form-select w-auto" // Mantengo las clases de Bootstrap para su comportamiento responsivo
+              className="form-select w-auto" 
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >

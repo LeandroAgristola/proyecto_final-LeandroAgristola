@@ -1,18 +1,24 @@
-import React from 'react'; // Importo React ya que es necesario para JSX
+import React from 'react'; 
 import { useCart } from '../context/CartContext.jsx';
-import { Link, useNavigate, useLocation } from 'react-router-dom'; // Importo Link, useNavigate y useLocation
+import { Link, useNavigate, useLocation } from 'react-router-dom'; 
 import styled from 'styled-components';
 import QuantityControls from './common/QuantityControls.jsx';
-import { useAuth } from '../context/AuthContext.jsx'; // Importo useAuth para verificar la sesión
+import { useAuth } from '../context/AuthContext.jsx'; 
 
-
-// Defino un componente StyledCard para aplicar estilos de hover y ajuste de imagen.
 const StyledCard = styled.div`
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   overflow: hidden;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  
+
+  width: 100%; /* Ocupa todo el ancho disponible de su columna */
+  max-width: 280px; /* NUEVO: Limita el ancho máximo de la tarjeta para evitar estiramiento. */
+  margin: 0 auto; /* NUEVO: Centra la tarjeta dentro de su columna si hay espacio extra. */
+
+  height: 100%; /* Ocupa la altura disponible en su contenedor flex */
+  display: flex; /* Convierte la tarjeta en un contenedor flex */
+  flex-direction: column; /* Apila el contenido verticalmente */
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
@@ -21,15 +27,21 @@ const StyledCard = styled.div`
   .card-img-top {
     height: 200px;
     object-fit: cover;
+    width: 100%; /* Asegura que la imagen ocupe el ancho completo de su contenedor flex */
   }
 
   .card-body {
     padding: 1rem;
+    flex-grow: 1; /* Permite que el cuerpo de la tarjeta crezca y ocupe espacio */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido y empuja el botón hacia abajo */
   }
 
   .card-title {
     font-size: 1rem;
     min-height: 3rem;
+    word-break: break-word; /* Rompe palabras largas para evitar desbordamiento */
   }
 
   .card-text {
@@ -38,10 +50,11 @@ const StyledCard = styled.div`
     color: #e4231f; /* Color rojo de acento para el precio. */
   }
 
-  .btn-primary { 
+  .btn-primary {
     background-color: #343a40;
     border-color: #343a40;
     color: white;
+    width: 100%; /* Asegura que el botón ocupe el ancho completo del cuerpo de la tarjeta */
 
     &:hover {
       background-color: #555;
@@ -53,12 +66,11 @@ const StyledCard = styled.div`
      porque QuantityControls maneja sus propios estilos. */
 `;
 
-
 function Item({ producto }) {
   const { carrito, agregarAlCarrito, disminuirCantidad } = useCart();
-  const { usuario } = useAuth(); // Obtengo el estado del usuario logueado.
-  const navigate = useNavigate(); // Hook para la navegación.
-  const location = useLocation(); // Hook para obtener la URL actual (para redirigir de vuelta).
+  const { usuario } = useAuth(); 
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
 
   const cantidadEnCarrito = carrito.find(item => item.id === producto.id)?.cantidad || 0;
@@ -73,53 +85,47 @@ function Item({ producto }) {
     }).format(numericPrice);
   };
 
-  // NUEVA FUNCIÓN: Manejar el clic en "Agregar al carrito" con verificación de sesión.
   const handleAddToCart = () => {
-    if (!usuario) { // Si el usuario NO está logueado (el objeto 'usuario' es null o undefined)
-      // Redirijo al usuario a la página de login.
-      // Le paso el 'state' para que, una vez logueado, pueda volver a esta página.
+    if (!usuario) { 
       navigate('/login', { state: { from: location } });
     } else {
-      // Si el usuario SÍ está logueado, procedo a agregar el producto al carrito.
       agregarAlCarrito(producto);
     }
   };
 
 
   return (
-    <div className="col-md-3 mb-4">
+
+    <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
       <StyledCard className="card h-100">
-        <Link to={`/producto/${producto.id}`}> 
-          <img 
-            src={producto.imagen} 
-            className="card-img-top" 
+        <Link to={`/producto/${producto.id}`}>
+          <img
+            src={producto.imagen}
+            className="card-img-top"
             alt={`Imagen de ${producto.nombre}`}
           />
         </Link>
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
-            <Link 
-              to={`/producto/${producto.id}`} 
+            <Link
+              to={`/producto/${producto.id}`}
               className="text-decoration-none text-dark"
             >
               {producto.nombre}
             </Link>
           </h5>
           <p className="card-text fw-bold">{formatPrice(producto.precio)}</p>
-          
-          {/* Lógica de renderizado CONDICIONAL para el botón/control de cantidad */}
-          <div className="mt-auto"> 
+
+          <div className="mt-auto">
             {cantidadEnCarrito === 0 ? (
-              <button 
-                className="btn btn-primary w-100" 
-                onClick={handleAddToCart} // CAMBIO: Ahora llama a la función handleAddToCart
+              <button
+                className="btn btn-primary w-100"
+                onClick={handleAddToCart} 
               >
                 Agregar al carrito
               </button>
             ) : (
-              // Si ya hay ítems en el carrito, muestro el componente QuantityControls.
-              // Asumo que el usuario ya está logueado si ya tiene el producto en el carrito.
-              <div className="d-flex align-items-center justify-content-center"> 
+              <div className="d-flex align-items-center justify-content-center">
                 <QuantityControls
                   quantity={cantidadEnCarrito}
                   onIncrement={() => agregarAlCarrito(producto)}
@@ -127,7 +133,7 @@ function Item({ producto }) {
                 />
               </div>
             )}
-          </div> 
+          </div>
         </div>
       </StyledCard>
     </div>

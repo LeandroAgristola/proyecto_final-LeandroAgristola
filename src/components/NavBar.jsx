@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { FaSearch, FaUserCircle, FaShoppingCart, FaBars, FaTimes, FaBoxOpen, FaFire } from 'react-icons/fa';
 import logoColchones from '../assets/LogoColchones.png';
 import styled from 'styled-components';
-import { Collapse } from 'bootstrap'; // Import Collapse component from bootstrap
+import { Collapse } from 'bootstrap'; 
 
-// Componentes estilizados existentes
 const StyledSearchInput = styled.input`
   &:focus {
     border-color: #ffff;
@@ -31,8 +30,6 @@ const StyledSearchButton = styled.button`
   }
 `;
 
-// Modify existing StyledUserDropdownMenu and StyledCategoryDropdownMenu
-// to be controlled by React state (display: none/block)
 const StyledUserDropdownMenu = styled.ul`
   position: absolute;
   top: 100% !important;
@@ -41,7 +38,6 @@ const StyledUserDropdownMenu = styled.ul`
   min-width: 150px;
   z-index: 1050;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
-  margin-top: 5px;
   background-color: #495057 !important;
   display: none; /* Hidden by default, controlled by React state/class */
 
@@ -181,6 +177,7 @@ function NavBar() {
 
   const navbarCollapseRef = useRef(null);
   const bsCollapseInstance = useRef(null);
+  const userDropdownRef = useRef(null); // NEW: Ref for the user dropdown container
 
   const categorias = [
     {
@@ -265,11 +262,19 @@ function NavBar() {
     } else {
       setOpenCategoryDropdown(categoryName); // Open this one
     }
+    // Close user dropdown if a category dropdown is opened
+    if (isUserDropdownOpen) { // NEW: Close user dropdown if it's open when category dropdown is toggled
+        setIsUserDropdownOpen(false);
+    }
   };
 
   // Handle user dropdown toggle
   const handleUserDropdownToggle = () => {
     setIsUserDropdownOpen(!isUserDropdownOpen);
+    // Close any open category dropdown when user dropdown is toggled
+    if (openCategoryDropdown) { // NEW: Close category dropdown if it's open when user dropdown is toggled
+        setOpenCategoryDropdown(null);
+    }
   };
 
   // Effect to measure mobile header height
@@ -312,7 +317,12 @@ function NavBar() {
 
       const collapseElement = navbarCollapseRef.current;
 
-      const handleShown = () => setIsMenuOpen(true);
+      const handleShown = () => {
+        setIsMenuOpen(true);
+        // Close any open dropdowns when the main menu opens
+        setIsUserDropdownOpen(false);
+        setOpenCategoryDropdown(null);
+      };
       const handleHidden = () => {
         setIsMenuOpen(false);
         // Also close any open dropdowns when the main menu closes
@@ -335,6 +345,54 @@ function NavBar() {
       };
     }
   }, []); // Empty dependency array means this runs once on mount
+
+  // NEW: Effect to close user dropdown on outside click
+  useEffect(() => {
+      const handleClickOutside = (event) => {
+          // Check if user dropdown is open AND click is outside its ref AND not on main menu toggler (to avoid immediate re-close)
+          // Also, ensure the click target is not part of another active dropdown, as that's handled by specific toggles
+          if (userDropdownRef.current && !userDropdownRef.current.contains(event.target) && isUserDropdownOpen) {
+              // Ensure the click wasn't on a category dropdown toggle itself, which should open its own menu
+              const clickedOnCategoryToggle = event.target.closest('.nav-item.dropdown button.dropdown-toggle');
+              if (!clickedOnCategoryToggle || !clickedOnCategoryToggle.id.includes('navbarDropdown')) { // Check if it's a category toggle
+                setIsUserDropdownOpen(false);
+              }
+          }
+      };
+
+      // Add event listener to the document
+      document.addEventListener('mousedown', handleClickOutside); // Using mousedown for consistency with browser dropdowns
+
+      return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+      };
+  }, [isUserDropdownOpen, openCategoryDropdown]); // Re-run effect if dropdown open states change
+
+
+  // NEW: Effect to close category dropdown on outside click
+  useEffect(() => {
+    const handleClickOutsideCategory = (event) => {
+      // Check if any category dropdown is open AND click is outside its ref (if we had specific refs for each category)
+      // For now, if openCategoryDropdown is set, it means one is open.
+      // If the click is outside the main navbar collapse and outside the user dropdown, close category dropdowns.
+      if (openCategoryDropdown &&
+          (!navbarCollapseRef.current || !navbarCollapseRef.current.contains(event.target)) &&
+          (!userDropdownRef.current || !userDropdownRef.current.contains(event.target))
+      ) {
+        // Ensure the click wasn't on the user dropdown toggle itself
+        const clickedOnUserToggle = event.target.closest('#userDropdownNavLink');
+        if (!clickedOnUserToggle) {
+          setOpenCategoryDropdown(null);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutsideCategory);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideCategory);
+    };
+  }, [openCategoryDropdown, isMenuOpen, isUserDropdownOpen]); // Depend on relevant states
+
 
   return (
     <>
@@ -433,7 +491,6 @@ function NavBar() {
         <div className="container">
           <StyledMobileCollapse className="collapse navbar-collapse" id="navbarNav" ref={navbarCollapseRef}>
             <ul className="navbar-nav w-100 justify-content-between">
-              {/* User Menu Nav Item (Desktop & Mobile) */}
               <li className="nav-item">
                 <Link className="nav-link py-3 px-4" to="/ofertas" onClick={handleLinkClick}>
                   <FaFire className="me-2" />
@@ -472,9 +529,9 @@ function NavBar() {
                   )}
                 </li>
               ))}
-              <li className="nav-item dropdown" key="user-menu">
+              <li className="nav-item dropdown" key="user-menu" ref={userDropdownRef}>
                   {usuario ? (
-                      <button // Button to toggle user dropdown, no data-bs-toggle
+                      <button 
                           className="nav-link dropdown-toggle py-3 px-4"
                           id="userDropdownNavLink"
                           type="button"

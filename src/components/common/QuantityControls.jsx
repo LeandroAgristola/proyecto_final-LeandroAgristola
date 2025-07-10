@@ -1,6 +1,5 @@
-// src/components/common/QuantityControls.jsx
 import styled from 'styled-components';
-import React from 'react'; // Necesario porque JSX se transpila a llamadas a React.createElement
+import React from 'react'; 
 
 
 // Este componente estilizado define la apariencia de los botones individuales (+ y -).

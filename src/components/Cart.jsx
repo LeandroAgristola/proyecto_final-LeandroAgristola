@@ -6,15 +6,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import QuantityControls from './common/QuantityControls.jsx';
 
-
-// NEW: Styled component for enhanced progress bar
 const StyledProgressBar = styled.div`
   .progress-bar {
     background-color: #586875; /* A more subtle, quality color */
     transition: width 2s ease-in-out; /* Smooth transition for width */
   }
 `;
-
 
 function Cart() {
   const { carrito, agregarAlCarrito, disminuirCantidad, vaciarCarrito } = useCart();
@@ -80,7 +77,6 @@ function Cart() {
   if (carrito.length === 0 && !purchaseCompleted) {
     return (
         <div className="container py-5">
-            {/* NEW: Card for empty cart design */}
             <div className="card shadow-sm p-4">
                 <div className="card-body text-center">
                     <h2 className="card-title mb-3">Tu carrito está vacío.</h2>
@@ -118,9 +114,7 @@ function Cart() {
             key={item.id}
             className="list-group-item py-3"
           >
-            {/* --- DESKTOP LAYOUT (visible on md and up, hidden on smaller) --- */}
             <div className="d-none d-md-flex justify-content-between align-items-center">
-              {/* Left side: Quantity controls + Product name */}
               <div className="d-flex align-items-center">
                 <div className="d-flex align-items-center gap-2 me-4">
                   <QuantityControls
@@ -130,16 +124,13 @@ function Cart() {
                     disabled={isPurchasing}
                   />
                 </div>
-                <span className="fw-bold">{item.nombre}</span> {/* Product name */}
+                <span className="fw-bold">{item.nombre}</span>
               </div>
 
-              {/* Right side: Item Total Price */}
               <span className="fw-bold text-end" style={{ color: '#e4231f' }}>{formatPrice(parseFloat(item.precio) * item.cantidad)}</span>
             </div>
 
-            {/* --- MOBILE LAYOUT (visible on xs, sm, hidden on md and up) --- */}
             <div className="d-flex flex-column d-md-none">
-              {/* Mobile Row 1: Quantity Controls | Item Total Price */}
               <div className="d-flex justify-content-between align-items-center w-100 mb-2">
                 <div className="d-flex align-items-center gap-2 me-3">
                   <QuantityControls
@@ -152,7 +143,6 @@ function Cart() {
                 <span className="fw-bold fs-5" style={{ color: '#e4231f' }}>{formatPrice(parseFloat(item.precio) * item.cantidad)}</span>
               </div>
 
-              {/* Mobile Row 2: Product Details (Name) - occupying full width */}
               <div className="w-100">
                 <span className="fw-bold">{item.nombre}</span>
               </div>

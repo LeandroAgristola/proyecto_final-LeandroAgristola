@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; // Asegúrate de importar useState
+import React, { useEffect, useState } from 'react'; 
 import { getProductos } from '../services/api.js';
 import ItemListContainer from '../components/ItemListContainer.jsx';
 import { toast } from 'react-toastify';
@@ -7,7 +7,7 @@ import CategoryBanner from '../components/CategoryBanner.jsx';
 function MasVendidosPage() {
   const [masVendidos, setMasVendidos] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null); // Línea corregida aquí
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchMasVendidos = async () => {
@@ -17,14 +17,12 @@ function MasVendidosPage() {
         const res = await getProductos();
         const allProducts = res.data;
 
-        // Función para obtener N elementos aleatorios sin repetición
         const getRandomProducts = (arr, num) => {
           const shuffled = [...arr].sort(() => 0.5 - Math.random());
           return shuffled.slice(0, num);
         };
 
-        // Selecciono un número mayor de productos aleatorios para la página de más vendidos
-        setMasVendidos(getRandomProducts(allProducts, 8)); // Por ejemplo, 8 productos
+        setMasVendidos(getRandomProducts(allProducts, 8)); 
       } catch (err) {
         console.error("Error al cargar productos más vendidos:", err);
         setError('Error al cargar los productos más vendidos. Por favor, intenta de nuevo.');

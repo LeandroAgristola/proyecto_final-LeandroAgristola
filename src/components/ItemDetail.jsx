@@ -1,7 +1,7 @@
-import React from 'react'; // Importo React ya que es necesario para JSX
+import React from 'react'; 
 import { useCart } from '../context/CartContext.jsx';
-import { useAuth } from '../context/AuthContext.jsx'; // Importo useAuth
-import { useNavigate, useLocation } from 'react-router-dom'; // Importo useNavigate y useLocation
+import { useAuth } from '../context/AuthContext.jsx'; 
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components'; 
 import QuantityControls from './common/QuantityControls.jsx';
 
@@ -30,10 +30,9 @@ const StyledAddToCartButton = styled.button`
 
 function ItemDetail({ producto }) {
   const { agregarAlCarrito, disminuirCantidad, carrito } = useCart();
-  const { usuario } = useAuth(); // Obtengo el estado del usuario logueado.
-  const navigate = useNavigate(); // Hook para la navegación.
-  const location = useLocation(); // Hook para obtener la URL actual (para redirigir de vuelta).
-
+  const { usuario } = useAuth(); 
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
   const cantidadEnCarrito = carrito.find(item => item.id === producto.id)?.cantidad || 0;
 
@@ -47,14 +46,10 @@ function ItemDetail({ producto }) {
     }).format(numericPrice);
   };
 
-  // NUEVA FUNCIÓN: Manejar el clic en "Agregar al carrito" con verificación de sesión.
   const handleAddToCart = () => {
-    if (!usuario) { // Si el usuario NO está logueado
-      // Redirijo al usuario a la página de login.
-      // Le paso el 'state' para que, una vez logueado, pueda volver a esta página.
+    if (!usuario) { 
       navigate('/login', { state: { from: location } });
     } else {
-      // Si el usuario SÍ está logueado, procedo a agregar el producto al carrito.
       agregarAlCarrito(producto);
     }
   };
@@ -82,17 +77,15 @@ function ItemDetail({ producto }) {
           <p><small>Categoría: {producto.categoria || "No especificada"}</small></p>
           {producto.subcategoria && <p><small>Subcategoría: {producto.subcategoria.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</small></p>}
           
-          {/* Lógica de renderizado CONDICIONAL para el botón/control de cantidad */}
           {cantidadEnCarrito === 0 ? (
-            <StyledAddToCartButton className="mt-3" onClick={handleAddToCart}> {/* CAMBIO: Ahora llama a la función handleAddToCart */}
+            <StyledAddToCartButton className="mt-3" onClick={handleAddToCart}>
               Agregar al carrito
             </StyledAddToCartButton>
           ) : (
-            // El control de cantidad ya tiene mt-3, así que su posición se mantendrá.
             <div className="d-flex align-items-center mt-3">
               <QuantityControls
                 quantity={cantidadEnCarrito}
-                onIncrement={() => agregarAlCarrito(producto)} // Estos ya asumen que está logueado para incrementar/disminuir
+                onIncrement={() => agregarAlCarrito(producto)} 
                 onDecrement={() => disminuirCantidad(producto.id)}
               />
             </div>

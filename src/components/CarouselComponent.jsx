@@ -3,13 +3,12 @@ import { Carousel } from 'react-bootstrap';
 import bannerCuotas from '../assets/carousel/bannerCuotas.png';
 import bannerPagos from '../assets/carousel/bannerPagos.png';
 import bannerPromos from '../assets/carousel/bannerPromos.png';
-// Import mobile images
 import bannerCuotasMovil from '../assets/carousel/bannerCuotasMovil.png';
 import bannerPagosMovil from '../assets/carousel/bannerPagosMovil.png';
 import bannerPromosMovil from '../assets/carousel/bannerPromosMovil.png';
 
 function CarouselComponent() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Assuming 768px for common mobile breakpoint
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); 
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,12 +23,11 @@ function CarouselComponent() {
   };
 
   return (
-    // Set fade to false for sliding animation
-    <Carousel fade={false} controls={false} indicators={false} id="carousel"> {/* Added id="carousel" for footer link */}
+    <Carousel fade={false} controls={false} indicators={false} id="carousel"> 
       <Carousel.Item interval={4000}>
         <img
           className="d-block w-100"
-          src={getBannerSrc(bannerCuotas, bannerCuotasMovil)} // Conditional image source
+          src={getBannerSrc(bannerCuotas, bannerCuotasMovil)} 
           alt="Banner Cuotas"
           style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
@@ -37,7 +35,7 @@ function CarouselComponent() {
       <Carousel.Item interval={4000}>
         <img
           className="d-block w-100"
-          src={getBannerSrc(bannerPagos, bannerPagosMovil)} // Conditional image source
+          src={getBannerSrc(bannerPagos, bannerPagosMovil)}
           alt="Banner Medios de Pago"
           style={{ maxHeight: '600px', objectFit: 'cover' }}
         />
@@ -45,7 +43,7 @@ function CarouselComponent() {
       <Carousel.Item interval={4000}>
         <img
           className="d-block w-100"
-          src={getBannerSrc(bannerPromos, bannerPromosMovil)} // Conditional image source
+          src={getBannerSrc(bannerPromos, bannerPromosMovil)}
           alt="Banner Promociones"
           style={{ maxHeight: '600px', objectFit: 'cover' }}
         />

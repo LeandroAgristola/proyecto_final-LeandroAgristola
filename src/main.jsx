@@ -17,8 +17,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </CartProvider>
     </AuthProvider> 
     <ToastContainer 
-      position="bottom-right" // Posición de las notificaciones
-      autoClose={5000} // Cierran automáticamente después de 5 segundos
+      position="bottom-right" 
+      autoClose={5000} 
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover
-    /> {/* <-- NUEVO COMPONENTE */}
+    /> 
   </BrowserRouter>
 );
 

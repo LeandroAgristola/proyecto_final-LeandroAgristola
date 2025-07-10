@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import styled from 'styled-components';
 
-
 const StyledLoginForm = styled.div`
   max-width: 500px;
   margin: 50px auto 50px auto;
@@ -67,7 +66,6 @@ const StyledLoginForm = styled.div`
   }
 `;
 
-
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -119,7 +117,6 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {/* Icono de ojo para mostrar/ocultar contraseña */}
             <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>

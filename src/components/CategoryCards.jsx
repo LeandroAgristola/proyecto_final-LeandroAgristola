@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-// CORRECCIÓN: Aseguro que todas las imágenes de categoría estén importadas.
 import categoriaAlmohadasFibra from '../assets/categories/categoriaAlmohadasFibra.png';
 import categoriaAlmohadasVisco from '../assets/categories/categoriaAlmohadasVisco.png';
-import categoriaColchones from '../assets/categories/categoriaColchones.png'; // ¡Esta importación faltaba!
-import categoriaSabanas from '../assets/categories/categoriaSabanas.png';     // ¡Esta importación faltaba!
+import categoriaColchones from '../assets/categories/categoriaColchones.png';
+import categoriaSabanas from '../assets/categories/categoriaSabanas.png';     
 
 
 // Componentes Styled-Components existentes para la sección de categorías
@@ -50,7 +48,6 @@ const StyledCategoryCard = styled.div`
   }
 `;
 
-
 function CategoryCards() {
   // Mis datos de categorías principales con las imágenes y rutas que definimos.
   const categoriasPrincipales = [
@@ -91,7 +88,7 @@ function CategoryCards() {
                     alt={`Imagen de ${cat.nombre}`}
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{cat.nombre}</h5>
+                    <h6 className="card-title">{cat.nombre}</h6>
                   </div>
                 </StyledCategoryCard>
               </Link>

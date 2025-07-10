@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getProductos } from '../services/api.js';
 import ItemListContainer from '../components/ItemListContainer.jsx';
 import { toast } from 'react-toastify';
-import CategoryBanner from '../components/CategoryBanner.jsx'; // NEW: Import CategoryBanner
+import CategoryBanner from '../components/CategoryBanner.jsx'; 
 
 function OfertasPage() {
   const [ofertas, setOfertas] = useState([]);
@@ -17,14 +17,12 @@ function OfertasPage() {
         const res = await getProductos();
         const allProducts = res.data;
 
-        // Función para obtener N elementos aleatorios sin repetición
         const getRandomProducts = (arr, num) => {
           const shuffled = [...arr].sort(() => 0.5 - Math.random());
           return shuffled.slice(0, num);
         };
 
-        // Selecciono un número mayor de productos aleatorios para la página de ofertas completa
-        setOfertas(getRandomProducts(allProducts, 8)); // Por ejemplo, 8 productos
+        setOfertas(getRandomProducts(allProducts, 8)); 
       } catch (err) {
         console.error("Error al cargar ofertas:", err);
         setError('Error al cargar las ofertas. Por favor, intenta de nuevo.');
@@ -58,7 +56,6 @@ function OfertasPage() {
 
   return (
     <div className="container py-5">
-      {/* NEW: Render CategoryBanner instead of h2 title */}
       <CategoryBanner category="ofertas" />
       <ItemListContainer productos={ofertas} />
     </div>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Pagination as BSPagination } from 'react-bootstrap';
-import styled from 'styled-components'; // Importo styled para aplicar estilos CSS personalizados
+import styled from 'styled-components'; 
 
-
-// Defino un componente StyledPagination para aplicar estilos a la paginación.
 const StyledPagination = styled(BSPagination)`
   .page-item {
     .page-link {
@@ -50,7 +48,6 @@ function Pagination({ itemsPerPage, totalItems, currentPage, paginate }) {
   const pageNumbers = [];
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  // No muestro el componente de paginación si solo hay 1 página o menos.
   if (totalPages <= 1) {
     return null;
   }
@@ -60,7 +57,6 @@ function Pagination({ itemsPerPage, totalItems, currentPage, paginate }) {
   }
 
   return (
-    // Utilizo mi componente StyledPagination en lugar del BSPagination directo.
     <StyledPagination className="justify-content-center my-4">
       <BSPagination.Prev
         onClick={() => paginate(currentPage - 1)}
