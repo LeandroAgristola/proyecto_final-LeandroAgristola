@@ -99,14 +99,14 @@ cd proyecto-final-leandroagristola
 npm install
 ```
 
-# si encuentras errores de peerDependencies con react-helmet-async:
+### si encuentras errores de peerDependencies con react-helmet-async:
 
 ```bash
 Copiar
 Editar
 npm install --force
 ```
-# o sino 
+### o sino 
 
 ```bash
 npm install --legacy-peer-deps
