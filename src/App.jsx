@@ -18,7 +18,7 @@ function App() {
     <>
       <Helmet>
         <title>Colchonera React - Descansa Mejor</title>
-        <meta name="description" content="Tu tienda online de colchones, almohadas y sábanas para un descanso perfecto." />
+        <meta name="description" content="Tienda online de colchones, almohadas y sábanas para un descanso perfecto." />
         <meta name="keywords" content="colchones, almohadas, sábanas, descanso, dormir, tienda online, colchonería" />
         <meta name="author" content="Leandro Agristola" />
       </Helmet>
