@@ -121,8 +121,7 @@ Este proyecto utiliza: `https://6812a437129f6313e20f2315.mockapi.io`
 ```bash
 npm run dev
 ```
-** Esto abrirá la aplicación en tu navegador predeterminado, usualmente en:** 
-`http://localhost:5173`
+**Esto abrirá la aplicación en tu navegador predeterminado, usualmente en:** `http://localhost:5173`
 
 ### ⚙️ Auditorías y Optimización (Recomendaciones)
 
